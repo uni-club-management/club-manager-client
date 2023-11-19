@@ -1,11 +1,13 @@
 import React from 'react';
-import {Flex, Table, Tag} from 'antd';
+import {Button, Flex, Table, Tag} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
 import {Club} from "../../../types";
 import {toProperCase} from "../../../utils/string-formater.ts";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import Search, {SearchProps} from "antd/es/input/Search";
+import {Link} from "react-router-dom";
+import {EditOutlined} from "@ant-design/icons";
 
 
 const columns: ColumnsType<Club> = [
@@ -48,6 +50,16 @@ const columns: ColumnsType<Club> = [
                 </Tag>
             )
         }
+    },
+    {
+        title: 'Action',
+        dataIndex: 'idC',
+        key: 'action',
+        render: (_, record) => (
+            <Link to={`${record.idC}`}>
+                <Button icon={<EditOutlined/>}></Button>
+            </Link>
+        ),
     }
 ]
 
@@ -59,13 +71,13 @@ const ClubList = () => {
     const [searchText, setSearchText] = React.useState<string>("")
 
     const fetchClubs = (): Promise<Club[]> => {
-        return axios.get<Club[]>("http://localhost:8080/api/v1/clubs",{
+        return axios.get<Club[]>("http://localhost:8080/api/v1/clubs", {
             params: {
                 pageNumber: pageNumber - 1,
                 pageSize: pageSize,
                 search: searchText
             }
-        }).then(res =>{
+        }).then(res => {
             console.log(res.headers['total-pages'])
             setTotalRows(pageSize * res.headers['total-pages'])
             return res.data
@@ -85,7 +97,7 @@ const ClubList = () => {
                 placeholder="input search text"
                 allowClear
                 onSearch={onSearch}
-                style={{ width: 304 }}
+                style={{width: 304}}
             />
             <Table
                 columns={columns}
@@ -93,7 +105,7 @@ const ClubList = () => {
                 loading={data.isLoading}
                 pagination={{
                     defaultPageSize: 10,
-                    pageSize : pageSize,
+                    pageSize: pageSize,
                     current: pageNumber,
                     total: totalRows,
                     pageSizeOptions: ['10', '25', '50'],
