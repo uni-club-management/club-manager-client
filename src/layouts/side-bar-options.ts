@@ -1,4 +1,10 @@
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import {
+    DesktopOutlined,
+    FileOutlined,
+    HomeTwoTone,
+    TeamOutlined,
+    UserOutlined
+} from "@ant-design/icons";
 
 export type SideBarOptions = {
     key: string,
@@ -9,9 +15,9 @@ export type SideBarOptions = {
 export const adminOptions: SideBarOptions[] = [
     {
         key: '1',
-        label: 'Dashboard',
-        icon: PieChartOutlined,
-        path: 'dashboard'
+        label: 'Clubs',
+        icon: HomeTwoTone,
+        path: 'clubs'
     },
     {
         key: '2',
