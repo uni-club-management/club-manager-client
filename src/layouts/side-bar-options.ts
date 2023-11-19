@@ -1,4 +1,4 @@
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import {DesktopOutlined, DollarOutlined, FileOutlined, FireOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
 
 export type SideBarOptions = {
     key: string,
@@ -36,5 +36,38 @@ export const adminOptions: SideBarOptions[] = [
         label: 'Team',
         icon: TeamOutlined,
         path: 'team'
+    }
+]
+
+export const presidentOptions: SideBarOptions[]=[
+    {
+        key: '1',
+        label: 'Dashboard',
+        icon: PieChartOutlined,
+        path: 'president/dashboard'
+    },
+    {
+        key: '2',
+        label: 'Members',
+        icon: TeamOutlined,
+        path: 'president/members'
+    },
+    {
+        key: '3',
+        label: 'Events',
+        icon: FireOutlined,
+        path: 'president/events'
+    },
+    {
+        key: '4',
+        label: 'Documents',
+        icon: FileOutlined,
+        path: 'president/documents'
+    },
+    {
+        key: '5',
+        label: 'Budget',
+        icon: DollarOutlined,
+        path: 'president/budget'
     }
 ]
