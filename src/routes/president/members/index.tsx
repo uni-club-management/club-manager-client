@@ -25,6 +25,11 @@ const columns : ColumnsType<Student> = [{
     title: 'Roles',
     dataIndex: 'roles',
     key: 'roles',
+},
+{
+    title: 'Major',
+    dataIndex: 'major',
+    key: 'major',
 }
 ]
 
@@ -32,25 +37,22 @@ const columns : ColumnsType<Student> = [{
 type Props = {}
 
 export default function members(props: Props){
-    const [pageNumber,setPageNumber] = useState<number>(0)
+    const [pageNumber,setPageNumber] = useState<number>(1)
     const [pageSize,setPageSize]= useState<number>(3)
-    const [totalRows, setTotalRows]= useState<number>(10)
-    const [data,setdata] = useState<Student[]>([])
+    const [totalRows, setTotalRows]= useState<number>(30)
 
     const fetchClubMembers = (): Promise<Student[]> =>{
         return axios.get<Student[]>("http://localhost:8080/api/v1/clubs/2/members",{
             params:{
-                pageNumber: pageNumber,
+                pageNumber: pageNumber-1,
                 pageSize: pageSize,
             
             }
         }
         
         ).then(res =>{
-            console.log(res.data)
-            console.log(res.headers['total-pages'])
             setTotalRows(pageSize*res.headers['total-pages'])
-            setdata(res.data)
+            console.log(res.data)
             return res.data
         }).catch(err =>{
             console.log(err)
@@ -58,25 +60,21 @@ export default function members(props: Props){
         })
     }
 
-    // const data = useQuery<Student[],Error>({
-    //     queryKey:['members',pageNumber,pageSize],
-    //     queryFn: fetchClubMembers,
-    // })
-    useEffect(
-        ()=>{
-            fetchClubMembers()
-        },[]
-    )
+    const data = useQuery<Student[],Error>({
+        queryKey:['members',pageNumber,pageSize],
+        queryFn: fetchClubMembers,
+    })
+  
   return (
     <div>
         <Table 
                 columns={columns}
-                dataSource={data}
-                //loading={data.isLoading}
+                dataSource={data.data}
+                loading={data.isLoading}
                 pagination={{
                     defaultPageSize: 10,
                     pageSize : pageSize,
-                    current: pageNumber + 1,
+                    current: pageNumber,
                     total: totalRows,
                     pageSizeOptions: ['10', '25', '50'],
                     showSizeChanger: true,
