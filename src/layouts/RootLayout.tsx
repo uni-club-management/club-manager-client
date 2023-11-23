@@ -60,7 +60,6 @@ export default function RootLayout(props: Props) {
                         padding: 24,
                         margin: 16,
                         minHeight: 280,
-                        background: colorBgContainer,
                     }}
                 >
                     <Outlet/>
