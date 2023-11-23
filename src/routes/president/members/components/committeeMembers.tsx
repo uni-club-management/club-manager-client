@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { Club, Student } from '../../../../types'
 import { useQuery } from '@tanstack/react-query'
+import StudentCard from '../../components/studentCard'
+import { Card, Flex } from 'antd'
 
 type Props = {}
 const CommitteeMembers = (props: Props) => {
@@ -23,24 +25,27 @@ const CommitteeMembers = (props: Props) => {
         queryFn: getClub
     })
 
-    if(club.isLoading){
-        return <div>Loading...</div>
-    }else if (club.isError){
-        return <div>Error : {club.error?.message}</div>
-    }else if (club.data){
+    if(!club.data){
+        return <StudentCard student={{}} loading={true}/>
+    }else {
         committeeMembers = club.data.committeeMembers as Student[]
     }
 
 
     return (
-        <div>
+        
+            <Card>
             <h2>Committee Members</h2>
-            <ul>
-                {committeeMembers.map((member) => (
-                    <li key={member.idA}>{member.email}</li>
-                ))}
-            </ul>
-        </div>
+            <Flex wrap='wrap' gap='middle'>
+            {committeeMembers.map((member) => (
+                <StudentCard student={member} loading={!club.data} />
+            ))}
+            </Flex>
+            </Card>
+            
+            
+            
+        
     )
 }
 
