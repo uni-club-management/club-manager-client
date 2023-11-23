@@ -1,9 +1,10 @@
-import { Table, Tag } from 'antd'
+import { Card, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react'
 import { Club, Student } from '../../../../types';
 import axios from "axios"
 import {useQuery} from "@tanstack/react-query";
+import { ExportOutlined } from '@ant-design/icons';
 
 
 const columns : ColumnsType<Student> = [{
@@ -67,7 +68,11 @@ export default function membersTable(props: Props){
     })
   
   return (
-    <div style={{margin:'10px'}}>
+        <Card 
+        title="All Members"
+        extra={<ExportOutlined/>}
+        style={{marginTop:'20px'}}
+        >
         <Table 
                 columns={columns}
                 dataSource={data.data}
@@ -85,6 +90,7 @@ export default function membersTable(props: Props){
                     }
                 }}
             />
-    </div>
+        </Card>
+        
   )
 }

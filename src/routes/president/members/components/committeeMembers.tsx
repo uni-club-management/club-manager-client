@@ -34,8 +34,10 @@ const CommitteeMembers = (props: Props) => {
 
     return (
         
-            <Card>
-            <h2>Committee Members</h2>
+            <Card 
+            style={{background:'transparent'}}
+            >
+            <h3>Committee Members</h3>
             <Flex wrap='wrap' gap='middle'>
             {committeeMembers.map((member) => (
                 <StudentCard student={member} loading={!club.data} />
