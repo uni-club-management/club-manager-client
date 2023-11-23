@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 import StudentCard from '../../components/studentCard'
 import { Card, Flex } from 'antd'
 
+//TODO: Get club id dynamicly
+
 type Props = {}
 const CommitteeMembers = (props: Props) => {
    const [clubId,setClubId] = useState<number>(2)

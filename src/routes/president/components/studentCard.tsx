@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { Avatar, Card, Skeleton, Switch } from 'antd';
 import { Student } from '../../../types';
 
+//TODO: implement card actions logic
+//TODO: add dynamic avatar img
+
 const { Meta } = Card;
 interface StudentCardProp{
     student : Student;
