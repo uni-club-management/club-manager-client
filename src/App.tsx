@@ -14,6 +14,9 @@ function App() {
                 <Route path='clubs'>
                     <Route index element={<ClubList/>}/>
                     <Route path=':clubId' element={<ClubEditAdminPage/>}>
+                        <Route index element={<div>budget</div>}/>
+                        <Route path={"budget"} element={<div>budget</div>}/>
+                        <Route path={"members"} element={<div>members</div>}/>
                         <Route path={"documents"} element={<ClubDocumentsList/>}/>
                     </Route>
                 </Route>

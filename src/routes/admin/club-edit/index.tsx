@@ -1,5 +1,5 @@
 import {Card, Dropdown, Flex, Image, MenuProps, Tabs, TabsProps, Tag, Typography} from "antd";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {ClubDetails, ClubStatusEnum} from "../../../types";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
@@ -45,6 +45,7 @@ const ClubEditAdminPage = () => {
     const {clubId} = useParams();
     const [clubStatus, setClubStatus] = React.useState<ClubStatusEnum>()
     const navigate = useNavigate()
+    const path = useLocation()
 
 
     const items: MenuProps['items'] = [
@@ -138,7 +139,7 @@ const ClubEditAdminPage = () => {
                 </Flex>
             </Card>
             <Card>
-                <Tabs defaultActiveKey="budget" items={tabs} onChange={(key : string) => (navigate(`${key}`))}/>
+                <Tabs activeKey={path.pathname.split('/')[3] ?? 'budget'} items={tabs} onChange={(key : string) => (navigate(`${key}`))}/>
             </Card>
         </Flex>
     );
