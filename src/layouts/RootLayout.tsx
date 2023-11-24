@@ -53,14 +53,14 @@ export default function RootLayout(props: Props) {
                     ))}
                 </Menu>
             </Sider>
-            <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh'}}>
+            <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh', transition: 'all 0.2s,background 0s'}}>
                 <Header style={{padding: 0, background: colorBgContainer}}/>
                 <Content
                     style={{
                         padding: 24,
                         margin: 16,
                         minHeight: 280,
-                        background: colorBgContainer,
+                        background: "transparent",
                     }}
                 >
                     <Outlet/>
