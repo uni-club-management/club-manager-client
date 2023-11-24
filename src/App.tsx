@@ -4,6 +4,7 @@ import RootLayout from './layouts/RootLayout'
 import {adminOptions} from "./layouts/side-bar-options.ts";
 import ClubList from "./routes/admin/club-list";
 import ClubEditAdminPage from "./routes/admin/club-edit";
+import ClubDocumentsList from "./routes/admin/club-edit/documents";
 
 function App() {
 
@@ -12,7 +13,9 @@ function App() {
             <Route path='/' element={<RootLayout options={adminOptions}/>}>
                 <Route path='clubs'>
                     <Route index element={<ClubList/>}/>
-                    <Route path=':clubId' element={<ClubEditAdminPage/>}/>
+                    <Route path=':clubId' element={<ClubEditAdminPage/>}>
+                        <Route path={"documents"} element={<ClubDocumentsList/>}/>
+                    </Route>
                 </Route>
 
                 <Route path='users' element={<div>users</div>}/>
