@@ -6,6 +6,11 @@ import {Document} from "../../../../types";
 import {useParams} from "react-router-dom";
 import dateFormat from "dateformat";
 import {formatBytes} from "../../../../utils/conversions.ts";
+import FileIcon from "../../../../components/file-icon";
+
+
+const re = /(?:\.([^.]+))?$/;
+
 
 const ClubDocumentsList = () => {
 
@@ -67,7 +72,10 @@ const ClubDocumentsList = () => {
               renderItem={(item) => (
                   <List.Item>
                       <Skeleton avatar title={false} loading={docs.isLoading} active>
-                          <Typography.Link onClick={() =>download(item.idDocument as number, item.name as string)}>{item.name}</Typography.Link>
+                          <Flex gap={"8px"}>
+                              <FileIcon extension={re.exec(item.name as string)![1].toString()}/>
+                              <Typography.Link onClick={() =>download(item.idDocument as number, item.name as string)}>{item.name}</Typography.Link>
+                          </Flex>
                           <Flex gap={"64px"}>
                               <Typography.Text>{dateFormat(item.dateUpload, "mmm d, yyyy")}</Typography.Text>
                               <Typography.Text>{formatBytes(item.size as number)}</Typography.Text>
