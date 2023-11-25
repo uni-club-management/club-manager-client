@@ -15,7 +15,7 @@ const re = /(?:\.([^.]+))?$/;
 
 const ClubDocumentsList = () => {
 
-    const [totalPages, setTotalPages] = React.useState<number>(0)
+    const [totalPages, setTotalPages] = React.useState<number>(1)
     const {clubId} = useParams();
 
     // eslint-disable-next-line
@@ -24,7 +24,7 @@ const ClubDocumentsList = () => {
         return axios.get<Document[]>(`http://localhost:8080/api/v1/documents/sender/${clubId}`, {
             params: {
                 pageNumber: pageParam,
-                pageSize: 1,
+                pageSize: 10,
             }
         }).then(res => {
             setTotalPages(res.headers['total-pages'])
@@ -54,7 +54,7 @@ const ClubDocumentsList = () => {
         getNextPageParam: (lastPage,allPages, lastPageParam) => {
             // eslint-disable-next-line
             // @ts-ignore
-            if (lastPageParam + 1 < totalPages) {
+            if (lastPageParam < totalPages) {
                 // eslint-disable-next-line
                 // @ts-ignore
                 return lastPageParam + 1
@@ -94,7 +94,7 @@ const ClubDocumentsList = () => {
                           </Flex>
                           <Flex gap={"64px"}>
                               <Typography.Text>{dateFormat(item.dateUpload, "mmm d, yyyy")}</Typography.Text>
-                              <Typography.Text>{formatBytes(item.size as number)}</Typography.Text>
+                              <Typography.Text style={{width:"120px", textAlign:"end"}}>{formatBytes(item.size as number)}</Typography.Text>
                           </Flex>
                       </Skeleton>
                   </List.Item>

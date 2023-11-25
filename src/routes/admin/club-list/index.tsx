@@ -89,7 +89,10 @@ const ClubList = () => {
         queryFn: fetchClubs,
     })
 
-    const onSearch: SearchProps['onSearch'] = (value) => setSearchText(value);
+    const onSearch: SearchProps['onSearch'] = (value) => {
+        setPageNumber(1)
+        setSearchText(value)
+    };
 
     return (
         <Flex vertical gap={'16px'}>
