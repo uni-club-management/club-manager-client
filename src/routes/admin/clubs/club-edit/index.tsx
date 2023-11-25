@@ -1,6 +1,6 @@
 import {Card, Dropdown, Flex, Image, MenuProps, Tabs, TabsProps, Tag, Typography} from "antd";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
-import {ClubDetails, ClubStatusEnum} from "../../../types";
+import {ClubDetails, ClubStatusEnum} from "../../../../types";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import React from "react";

@@ -1,11 +1,11 @@
 import {Button, Flex, List, Skeleton, Typography} from "antd";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import axios from "axios";
-import {Document} from "../../../../types";
+import {Document} from "../../../../../types";
 import {useParams} from "react-router-dom";
 import dateFormat from "dateformat";
-import {formatBytes} from "../../../../utils/conversions.ts";
-import FileIcon from "../../../../components/file-icon";
+import {formatBytes} from "../../../../../utils/conversions.ts";
+import FileIcon from "../../../../../components/file-icon";
 import React from "react";
 
 

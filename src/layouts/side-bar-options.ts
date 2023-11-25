@@ -1,9 +1,9 @@
 import {
-    DesktopOutlined,
+    CalendarOutlined,
     FileOutlined,
     HomeTwoTone,
+    NotificationOutlined,
     TeamOutlined,
-    UserOutlined
 } from "@ant-design/icons";
 
 export type SideBarOptions = {
@@ -21,15 +21,15 @@ export const adminOptions: SideBarOptions[] = [
     },
     {
         key: '2',
-        label: 'Users',
-        icon: UserOutlined,
-        path: 'users'
+        label: 'Events',
+        icon: NotificationOutlined,
+        path: 'events'
     },
     {
         key: '3',
-        label: 'Products',
-        icon: DesktopOutlined,
-        path: 'products'
+        label: 'Meetings',
+        icon: CalendarOutlined,
+        path: 'meetings'
     },
     {
         key: '4',

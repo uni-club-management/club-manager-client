@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Flex, Table, Tag} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
-import {Club} from "../../../types";
-import {toProperCase} from "../../../utils/string-formater.ts";
+import {Club} from "../../../../types";
+import {toProperCase} from "../../../../utils/string-formater.ts";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import Search, {SearchProps} from "antd/es/input/Search";
