@@ -1,27 +1,30 @@
 import {Button, Flex, List, Skeleton, Typography} from "antd";
-import {useQuery} from "@tanstack/react-query";
-import React from "react";
+import {useInfiniteQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {Document} from "../../../../types";
 import {useParams} from "react-router-dom";
 import dateFormat from "dateformat";
 import {formatBytes} from "../../../../utils/conversions.ts";
 import FileIcon from "../../../../components/file-icon";
+import React from "react";
 
 
 const re = /(?:\.([^.]+))?$/;
 
 
+
 const ClubDocumentsList = () => {
 
-    const [pageNumber, setPageNumber] = React.useState<number>(0)
     const [totalPages, setTotalPages] = React.useState<number>(0)
     const {clubId} = useParams();
-    const fetchDocs = (): Promise<Document[]> => {
+
+    // eslint-disable-next-line
+    // @ts-ignore
+    const fetchDocs = ({ pageParam  } ): Promise<Document[]> => {
         return axios.get<Document[]>(`http://localhost:8080/api/v1/documents/sender/${clubId}`, {
             params: {
-                pageNumber: pageNumber,
-                pageSize: 10,
+                pageNumber: pageParam,
+                pageSize: 1,
             }
         }).then(res => {
             setTotalPages(res.headers['total-pages'])
@@ -42,13 +45,26 @@ const ClubDocumentsList = () => {
         });
     }
 
-    const docs = useQuery<Document[], Error>({
-        queryKey: ['docs', clubId, pageNumber],
-        queryFn: fetchDocs
+    const docs = useInfiniteQuery<Document[], Error>({
+        queryKey: ['docs', clubId],
+        queryFn: fetchDocs,
+        initialPageParam: 0,
+        // eslint-disable-next-line
+        // @ts-ignore
+        getNextPageParam: (lastPage,allPages, lastPageParam) => {
+            // eslint-disable-next-line
+            // @ts-ignore
+            if (lastPageParam + 1 < totalPages) {
+                // eslint-disable-next-line
+                // @ts-ignore
+                return lastPageParam + 1
+            }
+            return undefined
+        },
     })
 
     const loadMore =
-        !docs.isLoading && (pageNumber + 1) < totalPages  ? (
+        docs.hasNextPage ? (
             <div
                 style={{
                     textAlign: 'center',
@@ -58,7 +74,7 @@ const ClubDocumentsList = () => {
                     lineHeight: '32px',
                 }}
             >
-                <Button onClick={()=> setPageNumber(prev => prev+1)}>loading more</Button>
+                <Button onClick={()=> docs.fetchNextPage()}>show more</Button>
             </div>
         ) : null;
 
@@ -67,7 +83,7 @@ const ClubDocumentsList = () => {
         <List bordered
               loading={docs.isLoading}
               itemLayout="horizontal"
-              dataSource={docs.data}
+              dataSource={docs.data?.pages.flat()}
               loadMore={loadMore}
               renderItem={(item) => (
                   <List.Item>
