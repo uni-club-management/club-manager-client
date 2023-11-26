@@ -89,8 +89,11 @@ const eventDetails: React.FC = () => {
                     ))
                 }
                 </Card>
+                <Card style={{height:'fit-content',width:'fit-content'} } bordered={false}>
+                    <Typography.Title level={1} style={{display:'inline'}}>{participants.data?.length} </Typography.Title>
+                    <Typography.Text type='secondary'>Participants</Typography.Text>                
+                </Card>
                 
-
                 </Flex>
             </Flex>
         </Card>
