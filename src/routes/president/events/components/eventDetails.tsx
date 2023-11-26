@@ -1,6 +1,6 @@
 import React, {  } from 'react';
 import { Card, Flex, Image, Tag, Typography } from 'antd';
-import { Event } from '../../../../types';
+import { Event, Student } from '../../../../types';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
@@ -19,21 +19,35 @@ const statusColors = {
 const eventDetails: React.FC = () => {
     const {eventId} = useParams() 
 
-    const getEvent = ():Promise<Event> => {
-        return axios.get(`http://localhost:8080/api/v1/events/${eventId}`)
-            .then(res => {
-                console.log("event:", res.data)
-                return res.data
-            }
-            ).catch(err => {
-                console.error("can't fetch event", err)
-                return []
-            })
+    const getEvent = async ():Promise<Event> => {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/v1/events/${eventId}`);
+            console.log("event:", res.data);
+            return res.data;
+        } catch (err) {
+            console.error("can't fetch event", err);
+            throw err;
+        }
+    }
+    const getEventParticipants = async ():Promise<Student[]> => {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/v1/events/${eventId}/participants`);
+            console.log("event participants :", res.data);
+            return res.data;
+        } catch (err) {
+            console.error("can't fetch event participants", err);
+            throw err;
+        }
     }
 
     const event = useQuery<Event, Error>({
         queryKey: ['event', eventId],
         queryFn: getEvent
+    })
+
+    const participants = useQuery<Student[], Error>({
+        queryKey: ['participants', eventId],
+        queryFn: getEventParticipants
     })
 
     const items = [
@@ -64,7 +78,7 @@ const eventDetails: React.FC = () => {
 
             <Flex gap='middle' vertical>
                 <Image src={event.data?.cover} alt='event-cover' style={{borderRadius:'10px'}}/>
-                
+                <Flex gap='middle' wrap='wrap'>
                 <Card title='Details' style={{height:'fit-content',width:'fit-content'} } bordered={false} extra={<EditOutlined onClick={()=>console.log('click')}/>}>
                 {
                     items.map((item,index) =>(
@@ -76,6 +90,8 @@ const eventDetails: React.FC = () => {
                 }
                 </Card>
                 
+
+                </Flex>
             </Flex>
         </Card>
     </Flex>
