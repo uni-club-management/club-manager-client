@@ -8,7 +8,7 @@ const {Content, Sider, Header} = Layout;
 type Props = {
     options: SideBarOptions[]
 }
-
+// TODO: FIX SIDEBAR
 export default function RootLayout(props: Props) {
 
     const [collapsed, setCollapsed] = useState(false);

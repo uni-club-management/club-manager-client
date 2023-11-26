@@ -5,6 +5,7 @@ import {adminOptions} from "./layouts/side-bar-options.ts";
 import ClubList from "./routes/admin/clubs/club-list";
 import ClubEditAdminPage from "./routes/admin/clubs/club-edit";
 import ClubDocumentsList from "./routes/admin/clubs/club-edit/documents";
+import MeetingCalendar from "./routes/common/meeting/meeting-calendar";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
 
                 <Route path='events' element={<div>envents</div>}/>
                 <Route path='meetings'>
-                    <Route index element={<div>team</div>}/>
+                    <Route index element={<MeetingCalendar/>}/>
                 </Route>
                 <Route path='products' element={<div>products</div>}/>
             </Route>
