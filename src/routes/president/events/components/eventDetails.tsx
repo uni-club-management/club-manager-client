@@ -72,7 +72,7 @@ const eventDetails: React.FC = () => {
 
                 <Flex gap='middle' vertical>
                     <Image src={event.data?.cover} alt='event-cover' style={{ borderRadius: '10px' }} />
-                    <Flex gap='middle' wrap='wrap'>
+                    <Flex gap='middle' >
 
                         
                         <Card title='Details' style={{ height: 'fit-content', width: '500px' }} bordered={false} extra={<EditOutlined onClick={() => console.log('click')} />}>
@@ -84,11 +84,18 @@ const eventDetails: React.FC = () => {
                                     </p>
                                 ))
                             }
+                            <Divider />
+                            <Typography.Title level={1} style={{ display: 'inline' }}>
+                                {
+                                    event.data?.date ? getDaysLeft(event.data.date) : null
+                                }
+                            </Typography.Title>
+                            <Typography.Text type='secondary'>Days left</Typography.Text>
                         </Card>
 
                         <ParticipantsList eventId={eventId} />
                         
-                        <Card style={{ height: 'fit-content', width: 'fit-content' }} bordered={false}>
+                        {/* <Card style={{ height: 'fit-content', width: 'fit-content' }} bordered={false}>
                             <Typography.Title level={1} style={{ display: 'inline' }}>
                                 {
                                     event.data?.date ? getDaysLeft(event.data.date) : null
@@ -97,7 +104,7 @@ const eventDetails: React.FC = () => {
                             <Typography.Text type='secondary'>Days left</Typography.Text>
 
 
-                        </Card>
+                        </Card> */}
                         <TransactionsList eventId={eventId} />
                     </Flex>
                 </Flex>
