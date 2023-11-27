@@ -54,7 +54,7 @@ function transactionsList({ eventId }: Props) {
                     <List.Item>
                         <List.Item.Meta
                             title={item.valeur}
-                            description={item.date?.toString()}
+                            description={item.date ? new Date(item.date).toLocaleDateString() : null}
                             key={item.idTransaction}
 
                         />
