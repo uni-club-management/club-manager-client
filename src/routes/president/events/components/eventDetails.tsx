@@ -9,6 +9,7 @@ import { render } from 'react-dom';
 import getDaysLeft from '../../../../utils/days-left';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ParticipantsList from './participantsList';
+import TransactionsList from './transactionsList';
 
 const { Text } = Typography
 
@@ -34,26 +35,14 @@ const eventDetails: React.FC = () => {
             throw err;
         }
     }
-    const getEventParticipants = async (): Promise<Student[]> => {
-        try {
-            const res = await axios.get(`http://localhost:8080/api/v1/events/${eventId}/participants`);
-            console.log("event participants :", res.data);
-            return res.data;
-        } catch (err) {
-            console.error("can't fetch event participants", err);
-            throw err;
-        }
-    }
+
 
     const event = useQuery<Event, Error>({
         queryKey: ['event', eventId],
         queryFn: getEvent
     })
 
-    const participants = useQuery<Student[], Error>({
-        queryKey: ['participants', eventId],
-        queryFn: getEventParticipants
-    })
+    
 
     const items = [
         {
@@ -85,7 +74,6 @@ const eventDetails: React.FC = () => {
                     <Image src={event.data?.cover} alt='event-cover' style={{ borderRadius: '10px' }} />
                     <Flex gap='middle' wrap='wrap'>
 
-                        <ParticipantsList participants={participants.data} />
                         
                         <Card title='Details' style={{ height: 'fit-content', width: '500px' }} bordered={false} extra={<EditOutlined onClick={() => console.log('click')} />}>
                             {
@@ -97,6 +85,8 @@ const eventDetails: React.FC = () => {
                                 ))
                             }
                         </Card>
+
+                        <ParticipantsList eventId={eventId} />
                         
                         <Card style={{ height: 'fit-content', width: 'fit-content' }} bordered={false}>
                             <Typography.Title level={1} style={{ display: 'inline' }}>
@@ -108,6 +98,7 @@ const eventDetails: React.FC = () => {
 
 
                         </Card>
+                        <TransactionsList eventId={eventId} />
                     </Flex>
                 </Flex>
             </Card>
