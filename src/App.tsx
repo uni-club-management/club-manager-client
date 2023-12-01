@@ -11,22 +11,24 @@ function App() {
 
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path='/' element={<RootLayout options={adminOptions}/>}>
-                <Route path='clubs'>
-                    <Route index element={<ClubList/>}/>
-                    <Route path=':clubId' element={<ClubEditAdminPage/>}>
-                        <Route index element={<div>budget</div>}/>
-                        <Route path={"budget"} element={<div>budget</div>}/>
-                        <Route path={"members"} element={<div>members</div>}/>
-                        <Route path={"documents"} element={<ClubDocumentsList/>}/>
+            <Route path='/'>
+                <Route path={'/admin'} element={<RootLayout options={adminOptions}/>}>
+                    <Route path='clubs'>
+                        <Route index element={<ClubList/>}/>
+                        <Route path=':clubId' element={<ClubEditAdminPage/>}>
+                            <Route index element={<div>budget</div>}/>
+                            <Route path={"budget"} element={<div>budget</div>}/>
+                            <Route path={"members"} element={<div>members</div>}/>
+                            <Route path={"documents"} element={<ClubDocumentsList/>}/>
+                        </Route>
+                    </Route>
+
+                    <Route path='events' element={<div>envents</div>}/>
+                    <Route path='meetings'>
+                        <Route index element={<MeetingCalendar/>}/>
                     </Route>
                 </Route>
 
-                <Route path='events' element={<div>envents</div>}/>
-                <Route path='meetings'>
-                    <Route index element={<MeetingCalendar/>}/>
-                </Route>
-                <Route path='products' element={<div>products</div>}/>
             </Route>
         )
     )

@@ -45,7 +45,7 @@ export default function RootLayout(props: Props) {
                     mode="inline"
                     defaultSelectedKeys={['1']}
                     theme={"dark"}
-                    selectedKeys={[path.pathname.split('/')[1]] ?? ['clubs']}
+                    selectedKeys={[path.pathname.split('/')[2]]}
                     items={props.options}
                     onSelect={({key}) => (navigate(`${key}`))}
                 >
