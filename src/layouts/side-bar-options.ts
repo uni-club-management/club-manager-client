@@ -1,46 +1,26 @@
 import {
     CalendarOutlined,
-    FileOutlined,
-    HomeTwoTone,
+    HomeOutlined,
     NotificationOutlined,
-    TeamOutlined,
 } from "@ant-design/icons";
+import {MenuProps} from "antd";
+import React from "react";
 
-export type SideBarOptions = {
-    key: string,
-    label: string,
-    icon: React.ForwardRefExoticComponent<Pick<never, never>> ,
-    path: string
-}
-export const adminOptions: SideBarOptions[] = [
+
+export const adminOptions: MenuProps['items'] = [
     {
-        key: '1',
+        key: 'clubs',
         label: 'Clubs',
-        icon: HomeTwoTone,
-        path: 'clubs'
+        icon: React.createElement(HomeOutlined),
     },
     {
-        key: '2',
+        key: 'events',
         label: 'Events',
-        icon: NotificationOutlined,
-        path: 'events'
+        icon: React.createElement(NotificationOutlined),
     },
     {
-        key: '3',
+        key: 'meetings',
         label: 'Meetings',
-        icon: CalendarOutlined,
-        path: 'meetings'
-    },
-    {
-        key: '4',
-        label: 'Documents',
-        icon: FileOutlined,
-        path: 'orders'
-    },
-    {
-        key: '5',
-        label: 'Team',
-        icon: TeamOutlined,
-        path: 'team'
+        icon: React.createElement(CalendarOutlined),
     }
 ]
