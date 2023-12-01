@@ -1,21 +1,23 @@
-import {Layout, Menu, theme} from 'antd';
-import {Link, Outlet} from 'react-router-dom';
-import {SideBarOptions} from "./side-bar-options.ts";
+import {Layout, Menu, MenuProps, theme} from 'antd';
+import {Outlet, useLocation, useNavigate} from 'react-router-dom';
 import {useState} from "react";
 
 const {Content, Sider, Header} = Layout;
 
 type Props = {
-    options: SideBarOptions[]
+    options:  MenuProps['items']
 }
 
 export default function RootLayout(props: Props) {
 
+    const path = useLocation()
+    const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: {colorBgContainer},
     } = theme.useToken();
 
+    console.log(path.pathname.split('/'))
     return (
         <Layout hasSider>
             <Sider
@@ -43,14 +45,10 @@ export default function RootLayout(props: Props) {
                     mode="inline"
                     defaultSelectedKeys={['1']}
                     theme={"dark"}
+                    selectedKeys={[path.pathname.split('/')[1]] ?? ['clubs']}
+                    items={props.options}
+                    onSelect={({key}) => (navigate(`${key}`))}
                 >
-                    {props.options.map((item: SideBarOptions) => (
-                        <Menu.Item key={item?.key} icon={<item.icon/>}>
-                            <Link to={`/${item?.path}`}>
-                                {item?.label}
-                            </Link>
-                        </Menu.Item>
-                    ))}
                 </Menu>
             </Sider>
             <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh'}}>
