@@ -7,6 +7,7 @@ import {useQuery} from "@tanstack/react-query";
 import { ExportOutlined } from '@ant-design/icons';
 
 //TODO: implement card's export action
+//TODO: get club id dynamicly
 
 const columns : ColumnsType<Student> = [{
     title: 'First Name',

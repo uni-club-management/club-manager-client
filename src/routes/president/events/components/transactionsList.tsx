@@ -4,6 +4,7 @@ import { Avatar, Card, Divider, Flex, List, Skeleton, Space, Typography } from '
 import InfiniteScroll from 'react-infinite-scroll-component'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+//TODO: apply infinite scroll
 
 type Props = {
     eventId: string | undefined

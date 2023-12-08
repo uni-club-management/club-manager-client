@@ -12,7 +12,7 @@ function events({}: Props) {
 
     const [clubId,setClubId]= useState<number>(2)
     const [pageNumber,setPageNumber]= useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(25)
+    const [pageSize, setPageSize] = useState<number>(100)
 
     const [search, setSearch] = useState<string>("")
     const [status, setStatus] = useState<string>("")
