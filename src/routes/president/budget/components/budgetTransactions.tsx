@@ -1,9 +1,11 @@
-import { Card, Table, Tag } from 'antd'
+import { Button, Card, Form, Modal, Table, Tag } from 'antd'
 import React, { useState } from 'react'
 import { Budget, Event, Transaction } from '../../../../types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { ColumnsType } from 'antd/es/table'
+import { PlusOutlined } from '@ant-design/icons'
+import NewTransactionModal from './newTransactionForm'
 
 const columns : ColumnsType<Transaction> = [
     {
@@ -50,6 +52,8 @@ const budgetTransactions = ({budget}: Props) => {
     const [pageSize,setPageSize] = useState<number>(4)
     const [totalRows, setTotalRows]= useState<number>(0)
 
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+
     const getTransactions = async ():Promise<Transaction[]> =>{
         return await axios.get(`http://localhost:8080/api/v1/budgets/${budget.idBudget}/transactions`,{
             params:{
@@ -67,13 +71,14 @@ const budgetTransactions = ({budget}: Props) => {
         })
     }
 
+    
     const transactions = useQuery<Transaction[],Error>({
         queryKey:['transactions',budget.idBudget,pageNumber,pageSize],
         queryFn: getTransactions
     })
 
   return (
-    <Card title='Transactions History' style={{width:'100%'}} >
+    <Card title='Transactions History' style={{width:'100%'}} extra={<Button onClick={e=>setIsModalVisible(true)} type='primary' icon={<PlusOutlined/>}>New Transaction</Button>} >
         <Table
             //scroll
 
@@ -93,6 +98,7 @@ const budgetTransactions = ({budget}: Props) => {
                 }
             }}
         />
+       <NewTransactionModal isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} budget={budget} />
 
     </Card>   
   )
