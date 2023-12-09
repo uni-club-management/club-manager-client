@@ -34,10 +34,10 @@ const columns : ColumnsType<Transaction> = [
     },
     {
         title:'Status',
-        dataIndex:'isValide',
-        key:'isValide',
-        render: (valide : boolean)=> (
-            <Tag color={valide?'green':'red'}>{valide?'approved':'rejected'}</Tag>
+        dataIndex:'status',
+        key:'status',
+        render: (status : string)=> (
+            <Tag color={status=='APPROVED'?'green':status=='REJECTED'?'red':status=='PENDING'?'blue':'default'}>{status}</Tag>
         )
     }
    
