@@ -11,32 +11,38 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface NewEventRequest
  */
 export interface NewEventRequest {
+
     /**
-     * 
      * @type {string}
      * @memberof NewEventRequest
      */
     name?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewEventRequest
      */
     description?: string;
+
     /**
-     * 
      * @type {Date}
      * @memberof NewEventRequest
      */
     date?: Date;
+
     /**
-     * 
      * @type {number}
      * @memberof NewEventRequest
      */

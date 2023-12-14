@@ -11,44 +11,50 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface NewClubDetailsRequest
  */
 export interface NewClubDetailsRequest {
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */
     logo?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */
     cover?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */
     description?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */
     email?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */
     phone?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewClubDetailsRequest
      */

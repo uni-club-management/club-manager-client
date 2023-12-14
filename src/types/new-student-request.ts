@@ -11,50 +11,56 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface NewStudentRequest
  */
 export interface NewStudentRequest {
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
     lastName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
     firstName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
     email?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
     password?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
     major?: string;
+
     /**
-     * 
      * @type {number}
      * @memberof NewStudentRequest
      */
     level?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof NewStudentRequest
      */
@@ -62,9 +68,9 @@ export interface NewStudentRequest {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum NewStudentRequestRoleEnum {
     ADMIN = 'ADMIN',
     PROF = 'PROF',

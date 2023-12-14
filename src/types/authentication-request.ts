@@ -11,20 +11,26 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface AuthenticationRequest
  */
 export interface AuthenticationRequest {
+
     /**
-     * 
      * @type {string}
      * @memberof AuthenticationRequest
      */
     email?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof AuthenticationRequest
      */
