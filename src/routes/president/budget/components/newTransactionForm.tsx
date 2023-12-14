@@ -52,12 +52,14 @@ const newTransactionModal = ({ isVisible, setIsModalVisible, budget }: Props) =>
     const mutation = useMutation({
         mutationFn: createNewTransaction,
         onSuccess: () => {
+            setError_transactionNotCreated(false)
             setIsTransactionCreated(true)
             setTimeout(()=>setIsTransactionCreated(false),5000)
             form.resetFields()
             console.log('transaction created')
         },
         onError: (error) => {
+            setIsTransactionCreated(false)
             setError_transactionNotCreated(true)
             // setTimeout(()=>setError_transactionNotCreated(false),3000)
             console.log('transaction not created', error)
@@ -79,8 +81,8 @@ const newTransactionModal = ({ isVisible, setIsModalVisible, budget }: Props) =>
                 <Button key='cancel'  onClick={()=>setIsModalVisible(false)}>cancel</Button>
                 ]}
         >
-            {isTransactionCreated &&<Alert closable message='Transaction requested successfully' type='success'  />}
-            {error_transactionNotCreated &&<Alert closable message={`Couldn't request transaction : ${mutation.error?.message}`}  type='error'  />}
+            {isTransactionCreated &&<Alert  showIcon closable message='Transaction requested successfully' type='success'  />}
+            {error_transactionNotCreated &&<Alert showIcon closable message={`Couldn't request transaction : ${mutation.error?.message}`}  type='error'  />}
             <Form onFinish={mutation.mutate} form={form} labelCol={{span:4}}  style={{paddingTop:'2em'}}>
                 <Form.Item label="Source" >
                     <b>Budget {budget.budgetType}</b>
