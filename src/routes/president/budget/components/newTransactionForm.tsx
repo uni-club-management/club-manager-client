@@ -9,7 +9,8 @@ import { InboxOutlined } from '@ant-design/icons';
 type Props = {
     isVisible: boolean;
     setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    budget: Budget
+    budget: Budget;
+    refreshTransactions: () => void;
 };
 
 const normFile = (e: any) => {
@@ -20,7 +21,7 @@ const normFile = (e: any) => {
     return e?.fileList;
   };
 
-const newTransactionModal = ({ isVisible, setIsModalVisible, budget }: Props) => {
+const newTransactionModal = ({ isVisible, setIsModalVisible, budget, refreshTransactions }: Props) => {
     const [form] = Form.useForm();
     const [clubId, setClubId] = useState<number>(2)
     const [isTransactionCreated, setIsTransactionCreated] = useState<boolean>(false)
@@ -56,6 +57,7 @@ const newTransactionModal = ({ isVisible, setIsModalVisible, budget }: Props) =>
             setIsTransactionCreated(true)
             setTimeout(()=>setIsTransactionCreated(false),5000)
             form.resetFields()
+            refreshTransactions()
             console.log('transaction created')
         },
         onError: (error) => {

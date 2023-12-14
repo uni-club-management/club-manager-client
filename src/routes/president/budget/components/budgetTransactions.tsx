@@ -123,7 +123,7 @@ const budgetTransactions = ({budget}: Props) => {
                 }
             }}
         />
-       <NewTransactionModal isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} budget={budget} />
+       <NewTransactionModal isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} budget={budget} refreshTransactions={transactions.refetch} />
 
     </Card>   
   )
