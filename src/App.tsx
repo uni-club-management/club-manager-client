@@ -1,15 +1,69 @@
-import {Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router-dom'
+import {createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider} from 'react-router-dom'
 import './App.css'
 import LoginPage from "./routes/login";
+import React from "react";
+import {AuthContext} from "./context/AuthContext.tsx";
+import {AuthenticationResponseRolesEnum} from "./types";
+import {useCookies} from "react-cookie";
+import axios from "axios";
 
 
 function App() {
 
+
+    const [cookies, setCookie] = useCookies(['token']);
+    const intervalRef = React.useRef();
+
+    const getToken = React.useCallback(() => {
+            if (cookies.token) {
+                axios.post("http://localhost:8080/api/v1/auth/refresh-token",{
+                    token : cookies.token
+                },{
+                    headers: {
+                        Authorization: `Bearer ${cookies.token}`
+                    }
+                }).then(res => {
+                    setCookie('token', res.data, {maxAge: 86400})
+                    axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.access
+                })
+            }
+        },
+        [cookies.token, setCookie]
+    );
+
+    React.useEffect(() => {
+        const interval = setInterval(() => getToken(), 24000);
+        // eslint-disable-next-line
+        // @ts-ignore
+        intervalRef.current = interval;
+        return () => clearInterval(interval);
+    }, [getToken]);
+
+
+
+    const {user} = React.useContext(AuthContext)
+
+    //TODO: check if user is logged in, if not redirect to login
+
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path='/'>
-                <Route path={"login"} element={<LoginPage/>}/>
-            </Route>
+
+                <Route path='/'>
+                    <Route path={"/login"} element={<LoginPage/>}/>
+                    {
+                        user?.roles?.includes(AuthenticationResponseRolesEnum.ADMIN)?
+                            <Route path={"admin"} element={<div>Admin protected Page</div>}/> :
+                        user?.roles?.includes(AuthenticationResponseRolesEnum.PROF)?
+                            <Route path={"prof"} element={<div>Prof protected Page</div>}/> :
+                        user?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT)?
+                            <Route path={"president"} element={<div>President protected Page</div>}/> :
+                        user?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER)?
+                             <Route path={"treasurer"} element={<div>Treasurer protected Page</div>}/> :
+                        user?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY)?
+                             <Route path={"secretary"} element={<div>Secretary protected Page</div>}/> :
+                             <Route path={"*"} element={<Navigate to='/login' replace />}/>
+                    }
+                </Route>
         )
     )
 
