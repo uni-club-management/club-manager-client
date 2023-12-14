@@ -4,7 +4,7 @@ import { Budget, Event, Transaction } from '../../../../types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { ColumnsType } from 'antd/es/table'
-import { PlusOutlined } from '@ant-design/icons'
+import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import NewTransactionModal from './newTransactionForm'
 
 const columns : ColumnsType<Transaction> = [
@@ -38,6 +38,15 @@ const columns : ColumnsType<Transaction> = [
         key:'status',
         render: (status : string)=> (
             <Tag color={status=='APPROVED'?'green':status=='REJECTED'?'red':status=='PENDING'?'blue':'default'}>{status}</Tag>
+        )
+    },
+    {
+        title:'Action',
+        dataIndex:'status',
+        key:'action',
+        width: 100,
+        render: (status)=>(
+            <Button type='link' disabled={status!='PENDING'}><EditOutlined/></Button>
         )
     }
    
