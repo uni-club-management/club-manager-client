@@ -3,7 +3,6 @@ import {Avatar, Button, Calendar, Card, Collapse, Drawer, Flex, theme, Typograph
 import {Meeting} from "../../../../types";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
-import stc from "string-to-color"
 import React from "react";
 import dateFormat from "dateformat";
 import {useSearchParams} from "react-router-dom";
@@ -51,9 +50,8 @@ const MeetingCalendar = () => {
                                         <Avatar.Group maxCount={3}>
                                             {item!.participants!.map((student) => (
                                                 <Avatar
-                                                    style={{backgroundColor: stc(`${student.firstName} ${student.lastName}`)}}>
-                                                    {student.firstName!.charAt(0).toUpperCase()}{student.lastName!.charAt(0).toUpperCase()}
-                                                </Avatar>
+                                                    src={`https://ui-avatars.com/api/?background=random&name=${student.firstName}+${student.lastName}`}
+                                                />
                                             ))}
                                         </Avatar.Group>
                                     </Flex>
@@ -97,9 +95,8 @@ const MeetingCalendar = () => {
                                         <Avatar.Group maxCount={3}>
                                             {item!.participants!.map((student) => (
                                                 <Avatar
-                                                    style={{backgroundColor: stc(`${student.firstName} ${student.lastName}`)}}>
-                                                    {student.firstName!.charAt(0).toUpperCase()}{student.lastName!.charAt(0).toUpperCase()}
-                                                </Avatar>
+                                                    src={`https://ui-avatars.com/api/?background=random&name=${student.firstName}+${student.lastName}`}
+                                                />
                                             ))}
                                         </Avatar.Group>
                                     </Flex>
@@ -142,9 +139,9 @@ const MeetingCalendar = () => {
                                 >
                                     <Flex vertical gap={8}>
                                         <Flex gap={8} align={"center"} >
-                                            <Avatar style={{backgroundColor: stc(`${data.data[+selectedMeeting].organiser?.firstName} ${data.data[+selectedMeeting].organiser?.lastName}`)}}>
-                                                {data.data[+selectedMeeting].organiser?.firstName!.charAt(0).toUpperCase()}{data.data[+selectedMeeting].organiser?.lastName!.charAt(0).toUpperCase()}
-                                            </Avatar>
+                                            <Avatar
+                                                src={`https://ui-avatars.com/api/?background=random&name=${data.data[+selectedMeeting].organiser?.firstName}+${data.data[+selectedMeeting].organiser?.lastName}`}
+                                            />
                                             <Flex gap={1} vertical align={"start"}>
                                                 {data.data[+selectedMeeting].organiser?.firstName} {data.data[+selectedMeeting].organiser?.lastName}
                                                 <Typography.Text type={"secondary"}>Organiser</Typography.Text>
@@ -152,9 +149,9 @@ const MeetingCalendar = () => {
                                         </Flex>
                                         {data?.data[+selectedMeeting]?.participants?.map(participent => (
                                             <Flex gap={8} align={"center"} >
-                                                <Avatar style={{backgroundColor: stc(`${participent.firstName} ${participent.lastName}`)}}>
-                                                    {participent.firstName!.charAt(0).toUpperCase()}{participent.lastName!.charAt(0).toUpperCase()}
-                                                </Avatar>
+                                                <Avatar
+                                                    src={`https://ui-avatars.com/api/?background=random&name=${participent.firstName}+${participent.lastName}`}
+                                                />
                                                 {participent.firstName} {participent.lastName}
                                             </Flex>
                                         ))}
