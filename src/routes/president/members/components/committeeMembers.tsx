@@ -15,7 +15,7 @@ const CommitteeMembers = (props: Props) => {
     const getClub = async (): Promise<Club> => {
         return await axios.get(`http://localhost:8080/api/v1/clubs/${props.idClub}`).then(
             (res => {
-                return res.data[0]
+                return res.data
             })
         ).catch(err => {
             console.error('error fetching club data', err)
