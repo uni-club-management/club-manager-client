@@ -28,7 +28,7 @@ function App() {
                         Authorization: `Bearer ${cookies.token}`
                     }
                 }).then(res => {
-                    setCookie('token', res.data, {path:'/',maxAge: 86400})
+                    setCookie('token', res.data.refreshToken, {path:'/',maxAge: 86400})
                     axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.refreshToken
                 })
             }
