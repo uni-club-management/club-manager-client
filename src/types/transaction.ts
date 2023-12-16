@@ -11,46 +11,52 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Document } from './document';
 import { Event } from './event';
+import {
+    Document,Event,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Transaction
  */
 export interface Transaction {
+
     /**
-     * 
      * @type {number}
      * @memberof Transaction
      */
     idTransaction?: number;
+
     /**
-     * 
      * @type {Event}
      * @memberof Transaction
      */
     event?: Event;
+
     /**
-     * 
      * @type {Date}
      * @memberof Transaction
      */
     date?: Date;
+
     /**
-     * 
      * @type {number}
      * @memberof Transaction
      */
     valeur?: number;
+
     /**
-     * 
      * @type {Array<Document>}
      * @memberof Transaction
      */
     preuve?: Array<Document>;
+
     /**
-     * 
      * @type {boolean}
      * @memberof Transaction
      */

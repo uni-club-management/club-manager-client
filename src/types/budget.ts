@@ -11,33 +11,38 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Budget
  */
 export interface Budget {
-    [x: string]: any;
+
     /**
-     * 
      * @type {number}
      * @memberof Budget
      */
     idBudget?: number;
+
     /**
-     * 
      * @type {number}
      * @memberof Budget
      */
-    budget_initial?: number;
+    budgetInitial?: number;
+
     /**
-     * 
      * @type {number}
      * @memberof Budget
      */
-    used_budget?: number;
+    usedBudget?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Budget
      */
@@ -45,9 +50,9 @@ export interface Budget {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum BudgetBudgetTypeEnum {
     _1 = 'TYPE_1',
     _2 = 'TYPE_2'

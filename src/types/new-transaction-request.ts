@@ -11,32 +11,38 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface NewTransactionRequest
  */
 export interface NewTransactionRequest {
+
     /**
-     * 
      * @type {Date}
      * @memberof NewTransactionRequest
      */
     date?: Date;
+
     /**
-     * 
      * @type {number}
      * @memberof NewTransactionRequest
      */
     valeur?: number;
+
     /**
-     * 
      * @type {number}
      * @memberof NewTransactionRequest
      */
     idBudget?: number;
+
     /**
-     * 
      * @type {number}
      * @memberof NewTransactionRequest
      */
