@@ -8,17 +8,19 @@ import dateFormat from "dateformat";
 import {useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../../../context/AuthContext.tsx";
 import SelectedMeetingDrawer from "./component/selected-meeting-drawer";
+import NewMeetingDrawer from "./component/new-meeting-drawer";
 
 const MeetingCalendar = () => {
 
     const [open, setOpen] = React.useState<boolean>(false);
     const [isSelectedMeetingDrawerOpen, setIsSelectedMeetingDrawerOpen] = React.useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = React.useState<string>("0")
+    const [isNewMeetingDrawerOpen, setIsNewMeetingDrawerOpen] = React.useState<boolean>(false);
+    const [selectedDate, setSelectedDate] = React.useState<string>("0");
     const [searchParams, setSearchParams] = useSearchParams({
         id: "",
-    })
-    const selectedMeeting = searchParams.get("id")
-    const {user} = useContext(AuthContext)
+    });
+    const selectedMeeting = searchParams.get("id");
+    const {user} = useContext(AuthContext);
 
 
     const {
@@ -68,7 +70,7 @@ const MeetingCalendar = () => {
             <Drawer title={dateFormat(new Date(+selectedDate ?? 500), "mmmm d, yyyy")} placement="right"
                     onClose={() => setOpen(false)} open={open} extra={
                 user && (user.roles?.includes(AuthenticationResponseRolesEnum.ADMIN) || user.roles?.includes(AuthenticationResponseRolesEnum.PROF)) &&
-                <Button type={"primary"}>Add new meeting</Button>
+                <Button type={"primary"} onClick={() => setIsNewMeetingDrawerOpen(true)}>Add new meeting</Button>
             }>
                 <Flex gap={8} align={"center"} vertical style={{width: "100%"}}>
                     {data.isSuccess && data.data.map((item, key) => {
@@ -106,10 +108,17 @@ const MeetingCalendar = () => {
                         }
                     })}
                 </Flex>
-                <SelectedMeetingDrawer
-                    meeting={data!.data![+!selectedMeeting]}
-                    open={isSelectedMeetingDrawerOpen}
-                    onClose={() => setIsSelectedMeetingDrawerOpen(false)}
+                {data.isSuccess && selectedMeeting &&
+                    <SelectedMeetingDrawer
+                        meeting={data!.data![+!selectedMeeting]}
+                        open={isSelectedMeetingDrawerOpen}
+                        onClose={() => setIsSelectedMeetingDrawerOpen(false)}
+                    />
+                }
+                <NewMeetingDrawer
+                    date={selectedDate}
+                    open={isNewMeetingDrawerOpen}
+                    onClose={() => setIsNewMeetingDrawerOpen(false)}
                 />
 
             </Drawer>
