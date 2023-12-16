@@ -16,15 +16,13 @@ function App() {
 
     const getToken = React.useCallback(() => {
             if (cookies.token) {
-                axios.post("http://localhost:8080/api/v1/auth/refresh-token",{
-                    token : cookies.token
-                },{
+                axios.post("http://localhost:8080/api/v1/auth/refresh-token",{},{
                     headers: {
                         Authorization: `Bearer ${cookies.token}`
                     }
                 }).then(res => {
-                    setCookie('token', res.data, {maxAge: 86400})
-                    axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.access
+                    setCookie('token', res.data, {path:'/',maxAge: 86400})
+                    axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.refreshToken
                 })
             }
         },
@@ -43,7 +41,7 @@ function App() {
 
     const {user} = React.useContext(AuthContext)
 
-    //TODO: check if user is logged in, if not redirect to login
+
 
     const router = createBrowserRouter(
         createRoutesFromElements(
