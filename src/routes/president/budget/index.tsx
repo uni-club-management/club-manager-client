@@ -1,21 +1,24 @@
-import { Card, Divider, Flex, Typography } from 'antd'
-import React, { useState } from 'react'
+import {  Divider, Flex } from 'antd'
 import { Budget } from '../../../types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import BudgetInfo from './components/budgetInfo'
 import BudgetCard from './components/budgetCard'
+import {useParams} from "react-router-dom";
+import {useContext} from "react";
+import {ClubContext} from "../../../context";
 
 
 
-type Props = {}
 
-const budget = (props: Props) => {
-    const [clubId, setClubId] = useState<number>(2)
+
+const ClubBudget = () => {
+    const {clubId} = useParams();
+    const club = useContext(ClubContext)
+    const idClub = (clubId && +clubId) ?? club.clubId ?? 1
 
     const getBudgets = async (): Promise<Budget[]> => {
         try {
-            const res = await axios.get(`http://localhost:8080/api/v1/clubs/${clubId}/budgets`);
+            const res = await axios.get(`http://localhost:8080/api/v1/clubs/${idClub}/budgets`);
             console.log("budgets:", res.data);
             return res.data;
         } catch (err) {
@@ -25,7 +28,7 @@ const budget = (props: Props) => {
     }
 
     const budgets = useQuery<Budget[], Error>({
-        queryKey: ['budgets', clubId],
+        queryKey: ['budgets', idClub],
         queryFn: getBudgets
     })
     
@@ -40,4 +43,4 @@ const budget = (props: Props) => {
   )
 }
 
-export default budget
+export default ClubBudget

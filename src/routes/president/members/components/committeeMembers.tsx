@@ -6,11 +6,14 @@ import {Card, Flex} from 'antd'
 
 //TODO: Get club id dynamicly
 
-const CommitteeMembers = () => {
+type Props = {
+    idClub: number
+}
+const CommitteeMembers = (props: Props) => {
     let committeeMembers: Student[] = []
 
     const getClub = async (): Promise<Club> => {
-        return await axios.get(`http://localhost:8080/api/v1/clubs/managed`).then(
+        return await axios.get(`http://localhost:8080/api/v1/clubs/${props.idClub}`).then(
             (res => {
                 return res.data[0]
             })
