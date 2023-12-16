@@ -1,55 +1,47 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { Club, Student } from '../../../../types'
-import { useQuery } from '@tanstack/react-query'
+import {Club, Student} from '../../../../types'
+import {useQuery} from '@tanstack/react-query'
 import StudentCard from '../../components/studentCard'
-import { Card, Flex } from 'antd'
+import {Card, Flex} from 'antd'
 
 //TODO: Get club id dynamicly
 
-type Props = {}
-const CommitteeMembers = (props: Props) => {
-   const [clubId,setClubId] = useState<number>(2)
-    let committeeMembers : Student[] = []
+const CommitteeMembers = () => {
+    let committeeMembers: Student[] = []
 
-   const getClub = async ():Promise<Club> =>{
-    return await axios.get(`http://localhost:8080/api/v1/clubs/${clubId}`).then(
-        (res =>{
-            return res.data
+    const getClub = async (): Promise<Club> => {
+        return await axios.get(`http://localhost:8080/api/v1/clubs/managed`).then(
+            (res => {
+                return res.data[0]
+            })
+        ).catch(err => {
+            console.error('error fetching club data', err)
         })
-    ).catch(err=>{
-        console.error('error fetching club data',err)
-    })
-   }
+    }
 
-    const club = useQuery<Club,Error>({
-        queryKey: ['club',clubId],
+    const club = useQuery<Club, Error>({
+        queryKey: ['club'],
         queryFn: getClub
     })
 
-    if(!club.data){
+    if (!club.data) {
         return <StudentCard student={{}} loading={true}/>
-    }else {
+    } else {
         committeeMembers = club.data.committeeMembers as Student[]
     }
 
 
     return (
-        
-            <Card 
-            style={{background:'transparent'}}
-            >
+        <Card
+            style={{background: 'transparent'}}
+        >
             <h3>Committee Members</h3>
             <Flex wrap='wrap' gap='middle'>
-            {committeeMembers.map((member) => (
-                <StudentCard student={member} loading={!club.data} />
-            ))}
+                {committeeMembers.map((member) => (
+                    <StudentCard student={member} loading={!club.data}/>
+                ))}
             </Flex>
-            </Card>
-            
-            
-            
-        
+        </Card>
     )
 }
 
