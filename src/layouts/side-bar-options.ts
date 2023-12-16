@@ -1,4 +1,7 @@
 import {
+    DollarOutlined,
+    PieChartOutlined,
+    TeamOutlined,
     CalendarOutlined,
     HomeOutlined,
     NotificationOutlined,
@@ -22,5 +25,28 @@ export const adminOptions: MenuProps['items'] = [
         key: 'meetings',
         label: 'Meetings',
         icon: React.createElement(CalendarOutlined),
+    }
+]
+
+export const presidentOptions: MenuProps['items'] = [
+    {
+        key: 'dashboard',
+        label: 'Dashboard',
+        icon: React.createElement(PieChartOutlined),
+    },
+    {
+        key: 'members',
+        label: 'Members',
+        icon: React.createElement(TeamOutlined),
+    },
+    {
+        key: 'events',
+        label: 'Events',
+        icon: React.createElement(NotificationOutlined),
+    },
+    {
+        key: 'budget',
+        label: 'Budget',
+        icon: React.createElement(DollarOutlined),
     }
 ]
