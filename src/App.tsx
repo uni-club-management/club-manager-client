@@ -17,6 +17,8 @@ import Members from './routes/president/members/index.tsx';
 import Events from './routes/president/events/index.tsx';
 import EventDetails from './routes/president/events/components/eventDetails.tsx';
 import Budget from './routes/president/budget/index.tsx';
+import ClubMembers from "./routes/president/members/index.tsx";
+import ClubBudget from "./routes/president/budget/index.tsx";
 
 function App() {
 
@@ -61,14 +63,17 @@ function App() {
                             <Route path='clubs'>
                                 <Route index element={<ClubList/>}/>
                                 <Route path=':clubId' element={<ClubEditAdminPage/>}>
-                                    <Route index element={<div>budget</div>}/>
-                                    <Route path={"budget"} element={<div>budget</div>}/>
-                                    <Route path={"members"} element={<div>members</div>}/>
+                                    <Route index element={<ClubBudget/>}/>
+                                    <Route path={"budget"} element={<ClubBudget/>}/>
+                                    <Route path={"members"} element={<ClubMembers/>}/>
                                     <Route path={"documents"} element={<ClubDocumentsList/>}/>
                                 </Route>
                             </Route>
 
-                            <Route path='events' element={<EventList/>}/>
+                            <Route path='events'>
+                                <Route index element={<EventList/>}/>
+                                <Route path=':eventId' element={<EventDetails/>}/>
+                            </Route>
                             <Route path='meetings'>
                                 <Route index element={<MeetingCalendar/>}/>
                             </Route>
