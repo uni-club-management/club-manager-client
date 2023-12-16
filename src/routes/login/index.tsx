@@ -3,8 +3,9 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {useContext} from "react";
-import {AuthenticationResponse} from "../../types";
+import {AuthenticationResponse, AuthenticationResponseRolesEnum} from "../../types";
 import {AuthContext} from "../../context/AuthContext.tsx";
+import {ClubContext} from "../../context";
 
 type FieldType = {
     email?: string;
@@ -18,7 +19,18 @@ const LoginPage = () => {
     const [_, setCookie] = useCookies(['token']);
     const navigate = useNavigate();
     const {setUser} = useContext(AuthContext)
+    const {setClubId} = useContext(ClubContext)
 
+
+    const getClub = () => {
+        axios.get(`http://localhost:8080/api/v1/clubs/managed`).then(
+            (res => {
+                setClubId(res.data[0].idC)
+            })
+        ).catch(err => {
+            console.error('error fetching club data', err)
+        })
+    }
 
 
     const login = (email: string, password: string) => {
@@ -28,19 +40,37 @@ const LoginPage = () => {
         }).then(res => {
             setCookie('token', res.data.refreshToken,{path: '/',maxAge:86400})
             setUser({
-                id:res.data.id,
-                roles:res.data.roles
+                id: res.data.id,
+                roles: res.data.roles
             })
             axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.accessToken
-            // TODO: switch case to navigate to specific role page
-            navigate(`/${res.data?.roles![0].toLowerCase()}`)
+
+            if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.ADMIN)) {
+                navigate(`/admin/clubs`)
+            } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT)) {
+                getClub()
+                navigate(`/president`)
+            } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PROF)) {
+                navigate(`/prof`)
+            } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT)) {
+                getClub()
+                navigate(`/vicepresident`)
+            } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER)) {
+                getClub()
+                navigate(`/treasurer`)
+            } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY)) {
+                getClub()
+                navigate(`/secretary`)
+            } else
+                navigate(`/login`)
+
         }).catch(err => {
             console.log(err)
         })
     }
 
     return (
-        <Flex align={"center"} wrap={"wrap" } style={{
+        <Flex align={"center"} wrap={"wrap"} style={{
             backgroundImage: 'url("https://eservices.uir.ac.ma/front/assets/media/bg1.jpg")',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
@@ -52,7 +82,8 @@ const LoginPage = () => {
                 paddingLeft: '2.5rem',
                 width: '50%'
             }}>
-                <img alt={"logo"} style={{width: 400}} src={"https://eservices.uir.ac.ma/front/assets/media/logo-uir-big.png"}/>
+                <img alt={"logo"} style={{width: 400}}
+                     src={"https://eservices.uir.ac.ma/front/assets/media/logo-uir-big.png"}/>
             </Flex>
             <Flex align={"center"} justify={"center"} style={{
                 padding: '2.5rem',
@@ -76,14 +107,16 @@ const LoginPage = () => {
                             name="email"
                             rules={[{required: true, message: 'Please input your email!'}]}
                         >
-                            <Input placeholder={"mail@uir.ac.ma"} style={{borderRadius: '.85rem', padding: '.775rem 1rem'}}/>
+                            <Input placeholder={"mail@uir.ac.ma"}
+                                   style={{borderRadius: '.85rem', padding: '.775rem 1rem'}}/>
                         </Form.Item>
 
                         <Form.Item<FieldType>
                             name="password"
                             rules={[{required: true, message: 'Please input your password!'}]}
                         >
-                            <Input.Password placeholder={"********"} style={{borderRadius: '.85rem', padding: '.775rem 1rem'}}/>
+                            <Input.Password placeholder={"********"}
+                                            style={{borderRadius: '.85rem', padding: '.775rem 1rem'}}/>
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit" style={{borderRadius: '.85rem', width: '100%'}}

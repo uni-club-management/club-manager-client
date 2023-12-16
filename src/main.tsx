@@ -7,13 +7,16 @@ import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 import {AuthContextProvider} from "./context/AuthContext.tsx";
+import {ClubContextProvider} from "./context";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
      <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-          <App />
-          <ReactQueryDevtools/>
+          <ClubContextProvider>
+              <App />
+              <ReactQueryDevtools/>
+          </ClubContextProvider>
       </AuthContextProvider>
      </QueryClientProvider>
   </React.StrictMode>,

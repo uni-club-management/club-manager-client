@@ -139,7 +139,7 @@ const ClubEditAdminPage = () => {
                 </Flex>
             </Card>
             <Card>
-                <Tabs activeKey={path.pathname.split('/')[3] ?? 'budget'} items={tabs} onChange={(key : string) => (navigate(`${key}`))}/>
+                <Tabs activeKey={path.pathname.split('/')[4] ?? 'budget'} items={tabs} onChange={(key : string) => (navigate(`${key}`))}/>
             </Card>
         </Flex>
     );
