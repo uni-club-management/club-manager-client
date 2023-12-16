@@ -7,7 +7,7 @@ const {Content, Sider, Header} = Layout;
 type Props = {
     options:  MenuProps['items']
 }
-
+// TODO: FIX SIDEBAR
 export default function RootLayout(props: Props) {
 
     const path = useLocation()
@@ -45,20 +45,20 @@ export default function RootLayout(props: Props) {
                     mode="inline"
                     defaultSelectedKeys={['1']}
                     theme={"dark"}
-                    selectedKeys={[path.pathname.split('/')[1]] ?? ['clubs']}
+                    selectedKeys={[path.pathname.split('/')[2]]}
                     items={props.options}
                     onSelect={({key}) => (navigate(`${key}`))}
                 >
                 </Menu>
             </Sider>
-            <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh'}}>
+            <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh', transition: 'all 0.2s,background 0s'}}>
                 <Header style={{padding: 0, background: colorBgContainer}}/>
                 <Content
                     style={{
                         padding: 24,
                         margin: 16,
                         minHeight: 280,
-                        background: colorBgContainer,
+                        background: "transparent",
                     }}
                 >
                     <Outlet/>
