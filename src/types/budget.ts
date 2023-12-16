@@ -34,13 +34,13 @@ export interface Budget {
      * @type {number}
      * @memberof Budget
      */
-    budgetInitial?: number;
+    budget_initial?: number;
 
     /**
      * @type {number}
      * @memberof Budget
      */
-    usedBudget?: number;
+    used_budget?: number;
 
     /**
      * @type {string}
