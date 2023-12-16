@@ -6,6 +6,7 @@ import ClubList from "./routes/admin/clubs/club-list";
 import ClubEditAdminPage from "./routes/admin/clubs/club-edit";
 import ClubDocumentsList from "./routes/admin/clubs/club-edit/documents";
 import MeetingCalendar from "./routes/common/meeting/meeting-calendar";
+import EventList from "./routes/admin/events/event-list";
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
                         </Route>
                     </Route>
 
-                    <Route path='events' element={<div>envents</div>}/>
+                    <Route path='events' element={<EventList/>}/>
                     <Route path='meetings'>
                         <Route index element={<MeetingCalendar/>}/>
                     </Route>
