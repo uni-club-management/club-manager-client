@@ -11,26 +11,38 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface AuthenticationResponse
  */
 export interface AuthenticationResponse {
+
     /**
-     * 
+     * @type {number}
+     * @memberof AuthenticationResponse
+     */
+    id?: number;
+
+    /**
      * @type {Array<string>}
      * @memberof AuthenticationResponse
      */
     roles?: Array<AuthenticationResponseRolesEnum>;
+
     /**
-     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
     accessToken?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof AuthenticationResponse
      */
@@ -38,9 +50,9 @@ export interface AuthenticationResponse {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum AuthenticationResponseRolesEnum {
     ADMIN = 'ADMIN',
     PROF = 'PROF',

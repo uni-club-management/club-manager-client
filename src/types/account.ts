@@ -11,38 +11,44 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Account
  */
 export interface Account {
+
     /**
-     * 
      * @type {number}
      * @memberof Account
      */
     idA?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Account
      */
     lastName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Account
      */
     firstName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Account
      */
     email?: string;
+
     /**
-     * 
      * @type {Array<string>}
      * @memberof Account
      */
@@ -50,9 +56,9 @@ export interface Account {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum AccountRolesEnum {
     ADMIN = 'ADMIN',
     PROF = 'PROF',

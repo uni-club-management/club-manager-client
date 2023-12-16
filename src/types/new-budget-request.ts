@@ -11,26 +11,32 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface NewBudgetRequest
  */
 export interface NewBudgetRequest {
+
     /**
-     * 
      * @type {string}
      * @memberof NewBudgetRequest
      */
     budgetType?: NewBudgetRequestBudgetTypeEnum;
+
     /**
-     * 
      * @type {number}
      * @memberof NewBudgetRequest
      */
     budgetInitial?: number;
+
     /**
-     * 
      * @type {number}
      * @memberof NewBudgetRequest
      */
@@ -38,9 +44,9 @@ export interface NewBudgetRequest {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum NewBudgetRequestBudgetTypeEnum {
     _1 = 'TYPE_1',
     _2 = 'TYPE_2'

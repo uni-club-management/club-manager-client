@@ -11,51 +11,57 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Club } from './club';
+import {
+    Club,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Event
  */
 export interface Event {
+
     /**
-     * 
      * @type {number}
      * @memberof Event
      */
     idEvent?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Event
      */
     name?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Event
      */
     description?: string;
+
     /**
-     * 
      * @type {Club}
      * @memberof Event
      */
     organisateur?: Club;
+
     /**
-     * 
      * @type {Date}
      * @memberof Event
      */
     date?: Date;
+
     /**
-     * 
      * @type {string}
      * @memberof Event
      */
     cover?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Event
      */
@@ -63,9 +69,9 @@ export interface Event {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum EventStatusEnum {
     REQUESTED = 'REQUESTED',
     APPROVED = 'APPROVED',
