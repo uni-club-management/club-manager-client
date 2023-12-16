@@ -1,73 +1,52 @@
-import {DesktopOutlined, DollarOutlined, FileOutlined, FireOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
+import {
+    DollarOutlined,
+    PieChartOutlined,
+    TeamOutlined,
+    CalendarOutlined,
+    HomeOutlined,
+    NotificationOutlined,
+} from "@ant-design/icons";
+import {MenuProps} from "antd";
+import React from "react";
 
-export type SideBarOptions = {
-    key: string,
-    label: string,
-    icon: React.ForwardRefExoticComponent<Pick<never, never>> ,
-    path: string
-}
-export const adminOptions: SideBarOptions[] = [
+
+export const adminOptions: MenuProps['items'] = [
     {
-        key: '1',
-        label: 'Dashboard',
-        icon: PieChartOutlined,
-        path: 'dashboard'
+        key: 'clubs',
+        label: 'Clubs',
+        icon: React.createElement(HomeOutlined),
     },
     {
-        key: '2',
-        label: 'Users',
-        icon: UserOutlined,
-        path: 'users'
+        key: 'events',
+        label: 'Events',
+        icon: React.createElement(NotificationOutlined),
     },
     {
-        key: '3',
-        label: 'Products',
-        icon: DesktopOutlined,
-        path: 'products'
-    },
-    {
-        key: '4',
-        label: 'Documents',
-        icon: FileOutlined,
-        path: 'orders'
-    },
-    {
-        key: '5',
-        label: 'Team',
-        icon: TeamOutlined,
-        path: 'team'
+        key: 'meetings',
+        label: 'Meetings',
+        icon: React.createElement(CalendarOutlined),
     }
 ]
 
-export const presidentOptions: SideBarOptions[]=[
+export const presidentOptions: MenuProps['items'] = [
     {
-        key: '1',
+        key: 'dashboard',
         label: 'Dashboard',
-        icon: PieChartOutlined,
-        path: 'president/dashboard'
+        icon: React.createElement(PieChartOutlined),
     },
     {
-        key: '2',
+        key: 'members',
         label: 'Members',
-        icon: TeamOutlined,
-        path: 'president/members'
+        icon: React.createElement(TeamOutlined),
     },
     {
-        key: '3',
+        key: 'events',
         label: 'Events',
-        icon: FireOutlined,
-        path: 'president/events'
+        icon: React.createElement(NotificationOutlined),
     },
     {
-        key: '4',
-        label: 'Documents',
-        icon: FileOutlined,
-        path: 'president/documents'
-    },
-    {
-        key: '5',
+        key: 'budget',
         label: 'Budget',
-        icon: DollarOutlined,
-        path: 'president/budget'
+        icon: React.createElement(DollarOutlined),
     }
 ]
