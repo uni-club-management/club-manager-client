@@ -11,56 +11,62 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Student
  */
 export interface Student {
+
     /**
-     * 
      * @type {number}
      * @memberof Student
      */
     idA?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Student
      */
     lastName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Student
      */
     firstName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Student
      */
     email?: string;
+
     /**
-     * 
      * @type {Array<string>}
      * @memberof Student
      */
     roles?: Array<StudentRolesEnum>;
+
     /**
-     * 
      * @type {number}
      * @memberof Student
      */
     studentId?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Student
      */
     major?: string;
+
     /**
-     * 
      * @type {number}
      * @memberof Student
      */
@@ -68,9 +74,9 @@ export interface Student {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum StudentRolesEnum {
     ADMIN = 'ADMIN',
     PROF = 'PROF',

@@ -11,38 +11,44 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface Personnel
  */
 export interface Personnel {
+
     /**
-     * 
      * @type {number}
      * @memberof Personnel
      */
     idA?: number;
+
     /**
-     * 
      * @type {string}
      * @memberof Personnel
      */
     lastName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Personnel
      */
     firstName?: string;
+
     /**
-     * 
      * @type {string}
      * @memberof Personnel
      */
     email?: string;
+
     /**
-     * 
      * @type {Array<string>}
      * @memberof Personnel
      */
@@ -50,9 +56,9 @@ export interface Personnel {
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum PersonnelRolesEnum {
     ADMIN = 'ADMIN',
     PROF = 'PROF',

@@ -11,14 +11,20 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface SrcClubIdBody
  */
 export interface SrcClubIdBody {
+
     /**
-     * 
      * @type {Blob}
      * @memberof SrcClubIdBody
      */
