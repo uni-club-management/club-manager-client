@@ -26,7 +26,7 @@ const LoginPage = () => {
             "password": password,
             "email": email
         }).then(res => {
-            setCookie('token', res.data.refreshToken,{maxAge:86400})
+            setCookie('token', res.data.refreshToken,{path: '/',maxAge:86400})
             setUser({
                 id:res.data.id,
                 roles:res.data.roles

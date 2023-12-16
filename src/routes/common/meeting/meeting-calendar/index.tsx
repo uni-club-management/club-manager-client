@@ -1,13 +1,14 @@
 import type {Dayjs} from 'dayjs';
 import {Avatar, Button, Calendar, Card, Collapse, Drawer, Flex, theme, Typography} from 'antd';
-import {Meeting} from "../../../../types";
+import {AuthenticationResponseRolesEnum, Meeting} from "../../../../types";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
-import React from "react";
+import React, {useContext} from "react";
 import dateFormat from "dateformat";
 import {useSearchParams} from "react-router-dom";
 import {AlignLeftOutlined, DashboardOutlined, EnvironmentOutlined, TeamOutlined} from "@ant-design/icons";
 import CollapsePanel from "antd/es/collapse/CollapsePanel";
+import {AuthContext} from "../../../../context/AuthContext.tsx";
 
 const MeetingCalendar = () => {
 
@@ -18,15 +19,15 @@ const MeetingCalendar = () => {
         id: "",
     })
     const selectedMeeting = searchParams.get("id")
+    const {user} = useContext(AuthContext)
 
 
     const {
         token: {colorBgContainer},
     } = theme.useToken();
 
-    // TODO : Change endpoint to meetings/me
     const fetchMeetings = (): Promise<Meeting[]> => {
-        return axios.get<Meeting[]>("http://localhost:8080/api/v1/meetings").then(res => res.data)
+        return axios.get<Meeting[]>("http://localhost:8080/api/v1/meetings/me").then(res => res.data)
     }
 
     const data = useQuery<Meeting[], Error>({
@@ -67,7 +68,8 @@ const MeetingCalendar = () => {
             />
             <Drawer title={dateFormat(new Date(+selectedDate ?? 500), "mmmm d, yyyy")} placement="right"
                     onClose={() => setOpen(false)} open={open} extra={
-                <Button type={"primary"}>Add new meeting</Button>
+                user && (user.roles?.includes(AuthenticationResponseRolesEnum.ADMIN) || user.roles?.includes(AuthenticationResponseRolesEnum.PROF)) &&
+                    <Button type={"primary"}>Add new meeting</Button>
             }>
                 <Flex gap={8} align={"center"} vertical style={{width: "100%"}}>
                     {data.isSuccess && data.data.map((item, key) => {
