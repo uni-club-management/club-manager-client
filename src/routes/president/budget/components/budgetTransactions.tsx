@@ -27,9 +27,9 @@ const budgetTransactions = ({budget}: Props) => {
                 pageSize: pageSize
             }
         }).then(res =>{
-            console.log('transactions:',res.data.content)
-            setTotalRows(res.data.totalPages * pageSize)
-            return res.data.content
+            console.log('transactions:',res.data)
+            setTotalRows(res.headers["total-pages"] * pageSize)
+            return res.data
         }
         ).catch((err)=>{
             console.error("can't fetch transactions")
