@@ -3,7 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import {useContext} from "react";
-import {AuthenticationResponse} from "../../types";
+import {AuthenticationResponse, AuthenticationResponseRolesEnum} from "../../types";
 import {AuthContext} from "../../context/AuthContext.tsx";
 
 type FieldType = {
@@ -32,8 +32,22 @@ const LoginPage = () => {
                 roles:res.data.roles
             })
             axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.accessToken
-            // TODO: switch case to navigate to specific role page
-            navigate(`/${res.data?.roles![0].toLowerCase()}`)
+
+            if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.ADMIN))
+                navigate(`/admin/clubs`)
+            else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT))
+                navigate(`/president`)
+            else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PROF))
+                navigate(`/prof`)
+            else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT))
+                navigate(`/vicepresident`)
+            else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER))
+                navigate(`/treasurer`)
+            else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY))
+                navigate(`/secretary`)
+            else
+                navigate(`/login`)
+
         }).catch(err => {
             console.log(err)
         })
