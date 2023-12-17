@@ -1,10 +1,10 @@
-import { EditOutlined, EllipsisOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import { Avatar, Card, Skeleton, Switch } from 'antd';
+import { EllipsisOutlined, MessageOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Avatar, Card } from 'antd';
 import { Student } from '../../../types';
 
 //TODO: implement card actions logic
-//TODO: add dynamic avatar img
+
 
 const { Meta } = Card;
 interface StudentCardProp{
@@ -26,7 +26,7 @@ const StudentCard: React.FC<StudentCardProp> = ({student, loading}) => {
         ]}
         >
         <Meta
-          avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />}
+          avatar={<Avatar src={`https://ui-avatars.com/api/?background=random&name=${student.firstName}+${student.lastName}`} />}
           title={student.firstName+" "+student.lastName}
           description={student.roles}
           key={student.idA}
