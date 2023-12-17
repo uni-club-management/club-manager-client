@@ -13,7 +13,21 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub}: Props) => {
   const [form] = Form.useForm();
   const [coverImg, setCoverImg] = useState<string>("https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg");
 
-  
+  const mutation = useMutation({
+    mutationFn:(values:{cover:string,name:string,description:string,date:Date})=>axios.post("http://localhost:8080/api/v1/events",{
+        name: values.name,
+        description: values.description,
+        date: values.date,
+        organizer: idClub
+    }),
+    onSuccess:()=>{
+        console.log("Event created succefully")
+    },
+    onError: (err)=>{
+        console.log("Event not created : ", err)
+    }
+    
+  })
 
   return (
     <Modal
