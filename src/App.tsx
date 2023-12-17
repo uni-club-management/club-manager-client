@@ -74,9 +74,7 @@ function App() {
                                 <Route index element={<EventList/>}/>
                                 <Route path=':eventId' element={<EventDetails/>}/>
                             </Route>
-                            <Route path='meetings'>
-                                <Route index element={<MeetingCalendar/>}/>
-                            </Route>
+                            <Route path='meetings' element={<MeetingCalendar/>}/>
                         </Route>
                     :
                     user?.roles?.includes(AuthenticationResponseRolesEnum.PROF) ?
@@ -91,6 +89,7 @@ function App() {
                                 <Route path=':eventId' element={<EventDetails/>}/>
                             </Route>
                             <Route path='budget' element={<Budget/>}/>
+                            <Route path='meetings' element={<MeetingCalendar/>}/>
                         </Route>
                     :
                     user?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER) ?
