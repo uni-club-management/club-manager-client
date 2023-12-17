@@ -91,7 +91,7 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
             <Input.TextArea maxLength={500} showCount/>
         </Form.Item>
         <Form.Item  label="Date" name="date" required>
-            <DatePicker/>
+            <DatePicker disabledDate={(date)=>date.isBefore(new Date())}/>
         </Form.Item>
       </Form>
     </Modal>
