@@ -21,11 +21,11 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
 
   const mutation = useMutation({
     mutationFn:(values:{cover:string,name:string,description:string,date:Date})=>{
-      console.log("requesting event creation: ", values)
+      console.log("requesting event creation: ", values,"idClub:",idClub)
       return axios.post("http://localhost:8080/api/v1/events",{
         name: values.name,
         description: values.description,
-        date: values.date,
+        date: new Date(values.date),
         organizer: idClub
     })},
     onSuccess:(v)=>{
