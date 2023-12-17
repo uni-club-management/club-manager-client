@@ -35,12 +35,12 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
         setTimeout(()=>setIsEventCreated(false),5000)
         form.resetFields()
         refetchEvents()
+        setCoverImg("https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg")
     },
     onError: (err)=>{
         console.log("Event not created : ", err)
         setIsEventCreated(false)
         setError_eventNotCreated(true)
-        // setTimeout(()=>setError_transactionNotCreated(false),3000)
     }
     
   })
@@ -65,6 +65,7 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
         style={{ paddingTop: "10px" }}
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
+        
         onFinish={mutation.mutate}
       >
         <Image
@@ -84,13 +85,13 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
             }
           />
         </Form.Item>
-        <Form.Item label="Title" name="name" required>
-            <Input maxLength={50}/>
+        <Form.Item label="Title" name="name"  rules={[{min:3,message:"min 3 chars"},{max:50,message:"max 50 chars"},{required:true}]}>
+            <Input  maxLength={50} />
         </Form.Item>
-        <Form.Item label="Description" name="description" required>
+        <Form.Item label="Description" name="description" rules={[{min:10,message:"min 10 chars"},{max:500,message:"max 500 chars"},{required:true}]} >
             <Input.TextArea maxLength={500} showCount/>
         </Form.Item>
-        <Form.Item  label="Date" name="date" required>
+        <Form.Item  label="Date" name="date" rules={[{required:true}]}>
             <DatePicker disabledDate={(date)=>date.isBefore(new Date())}/>
         </Form.Item>
       </Form>
