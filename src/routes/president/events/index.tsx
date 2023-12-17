@@ -113,7 +113,7 @@ function ClubEvents() {
                     </div>
                 ) : <Divider plain>It is all, nothing more 🤐</Divider>
             }
-            <CreateEventModal  isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} idClub={idClub}/>
+            <CreateEventModal  isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} idClub={idClub} refetchEvents={events.refetch}/>
         </>
 
     )
