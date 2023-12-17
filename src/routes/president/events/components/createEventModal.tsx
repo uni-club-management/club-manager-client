@@ -11,6 +11,7 @@ type Props = {
 
 const CreateEventModal = ({ isVisible, setIsModalVisible, idClub}: Props) => {
   const [form] = Form.useForm();
+  const [coverImg, setCoverImg] = useState<string>("https://t3.ftcdn.net/jpg/05/04/28/96/360_F_504289605_zehJiK0tCuZLP2MdfFBpcJdOVxKLnXg1.jpg");
 
   
 
@@ -28,7 +29,32 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub}: Props) => {
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
       >
-       
+        <Image
+          src={coverImg}
+          alt="T_T Can't load cover image"
+          style={{ marginLeft: "20px", padding: "10px" }}
+        />
+        <Form.Item label="Cover" name="cover">
+          <Input
+            addonAfter={
+              <Button
+                type="text"
+                onClick={() => setCoverImg(form.getFieldValue("cover"))}
+              >
+                Preview
+              </Button>
+            }
+          />
+        </Form.Item>
+        <Form.Item label="Title" name="name" required>
+            <Input maxLength={50}/>
+        </Form.Item>
+        <Form.Item label="Description" name="description" required>
+            <Input.TextArea maxLength={500} showCount/>
+        </Form.Item>
+        <Form.Item  label="Date" name="date" required>
+            <DatePicker/>
+        </Form.Item>
       </Form>
     </Modal>
   );
