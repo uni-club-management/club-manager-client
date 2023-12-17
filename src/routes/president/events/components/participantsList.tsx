@@ -1,7 +1,5 @@
-import React from 'react'
 import { Student } from '../../../../types'
-import { Avatar, Card, Divider, List, Skeleton, Typography } from 'antd'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import { Avatar, Card, Divider, List, Typography } from 'antd'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 //TODO: apply infinite scroll

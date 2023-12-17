@@ -47,7 +47,7 @@ function ClubEvents() {
         queryKey: ['events', idClub, search, status],
         queryFn: getEvents,
         initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
             // eslint-disable-next-line
             // @ts-ignore
             if (lastPageParam < totalPages-1) {

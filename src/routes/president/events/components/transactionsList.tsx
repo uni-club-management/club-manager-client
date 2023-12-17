@@ -1,16 +1,11 @@
-import React from "react";
-import { Student, Transaction } from "../../../../types";
+import { Transaction } from "../../../../types";
 import {
-  Avatar,
   Card,
   Divider,
   Flex,
   List,
-  Skeleton,
-  Space,
   Typography,
 } from "antd";
-import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 //TODO: apply infinite scroll
@@ -65,7 +60,7 @@ function transactionsList({ eventId }: Props) {
       <div style={{ maxHeight: "250px", overflowY: "auto" }}>
         <List
           dataSource={transactions.data?.slice(0, 5)}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={item.valeur}
