@@ -25,8 +25,10 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub, refetchEvents}
       return axios.post("http://localhost:8080/api/v1/events",{
         name: values.name,
         description: values.description,
+        cover: values.cover,
         date: new Date(values.date),
-        organizer: idClub
+        organizer: idClub,
+        
     })},
     onSuccess:(v)=>{
         console.log("Event created succefully :",v )
