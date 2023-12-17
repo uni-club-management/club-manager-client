@@ -20,8 +20,8 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub}: Props) => {
         date: values.date,
         organizer: idClub
     }),
-    onSuccess:()=>{
-        console.log("Event created succefully")
+    onSuccess:(values)=>{
+        console.log("Event created succefully :",values )
     },
     onError: (err)=>{
         console.log("Event not created : ", err)
@@ -34,14 +34,19 @@ const CreateEventModal = ({ isVisible, setIsModalVisible, idClub}: Props) => {
       title="Lets create a new Event !!!"
       open={isVisible}
       onCancel={() => setIsModalVisible(false)}
-      okText="submit"
-      onOk={form.submit}
+      footer={[
+        <Button key='submit' type='primary' 
+            loading={mutation.isPending} 
+            onClick={()=> form.submit()}>submit</Button>,
+        <Button key='cancel'  onClick={()=>setIsModalVisible(false)}>cancel</Button>
+        ]}
     >
       <Form
         form={form}
         style={{ paddingTop: "10px" }}
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
+        onFinish={mutation.mutate}
       >
         <Image
           src={coverImg}
