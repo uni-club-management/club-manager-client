@@ -1,5 +1,5 @@
-import {Button, Divider, Flex, Select, Typography} from 'antd'
-import React from 'react'
+import {Button, Divider, Flex, Select, Space, Typography} from 'antd'
+import React, { useState } from 'react'
 import {Event} from '../../../types'
 import axios from 'axios'
 import {useInfiniteQuery} from '@tanstack/react-query'
@@ -7,6 +7,8 @@ import EventCard from './components/eventCard'
 import Search from 'antd/es/input/Search'
 import {useParams} from "react-router-dom";
 import {ClubContext} from "../../../context";
+import { PlusOutlined } from '@ant-design/icons'
+import CreateEventModal from './components/createEventModal'
 
 
 function ClubEvents() {
@@ -20,6 +22,8 @@ function ClubEvents() {
 
     const [search, setSearch] = React.useState<string>("")
     const [status, setStatus] = React.useState<string>("")
+
+    const [isModalVisible,setIsModalVisible] = useState<boolean>(false)
 
     // eslint-disable-next-line
     // @ts-ignore
@@ -69,7 +73,7 @@ function ClubEvents() {
     }
     return (
         <>
-            <Flex style={{marginBottom: '20px'}} gap="large">
+            <Flex style={{marginBottom: '20px',marginInline:"10px"}} gap="large" >
                 <Select size='large' placeholder="Status" onChange={e => onSelectStatus(e)} style={{width: '10rem'}}
                         options={[{
                             value: '',
@@ -78,8 +82,9 @@ function ClubEvents() {
                         loading={events.isLoading}/>
                 <Search size='large' placeholder="Search Events" onChange={e => onSearch(e.target.value)}
                         style={{width: "300px"}} loading={events.isLoading}/>
+                <Button style={{marginLeft:"auto"}}type='primary'icon={<PlusOutlined/>} onClick={()=>setIsModalVisible(true)}>New Event</Button>
             </Flex>
-            <Flex gap="middle" wrap='wrap'>
+            <Flex gap="middle" wrap='wrap' justify='space-evenly'>
                 {
                     events.data?.pages.map((page) => (
                         page.map((event) => (
@@ -108,6 +113,7 @@ function ClubEvents() {
                     </div>
                 ) : <Divider plain>It is all, nothing more 🤐</Divider>
             }
+            <CreateEventModal  isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} idClub={idClub}/>
         </>
 
     )
