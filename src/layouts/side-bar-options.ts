@@ -48,5 +48,10 @@ export const presidentOptions: MenuProps['items'] = [
         key: 'budget',
         label: 'Budget',
         icon: React.createElement(DollarOutlined),
+    },
+    {
+        key: 'meetings',
+        label: 'Meetings',
+        icon: React.createElement(CalendarOutlined),
     }
 ]
