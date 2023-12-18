@@ -5,7 +5,8 @@ import React from "react";
 import  {Dayjs} from 'dayjs';
 import {NewMeetingRequest, Student} from "../../../../../../types";
 import axios from "axios";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import { CompoundedComponent } from "antd/es/float-button/interface";
 
 
 interface Props extends DrawerProps {
@@ -23,7 +24,9 @@ type FormData = {
 const NewMeetingDrawer = (props: Props) => {
 
     const [searchText, setSearchText] = React.useState<string>("");
+    const close = React.useRef<any>();
     const [form] = Form.useForm();
+    const queryClient = useQueryClient();
 
     const chosenDateTime= new Date(+props.date);
 
@@ -53,9 +56,7 @@ const NewMeetingDrawer = (props: Props) => {
         });
     };
 
-    const onReset = () => {
-        form.resetFields();
-    };
+
 
     const searchStudents = (): Promise<Student[]> => {
         return axios.get<Student[]>("http://localhost:8080/api/v1/students", {
@@ -75,6 +76,13 @@ const NewMeetingDrawer = (props: Props) => {
     const mutation = useMutation({
         mutationFn: (body : NewMeetingRequest) => {
             return axios.post("http://localhost:8080/api/v1/meetings",body)
+        },
+        onSuccess:() => {
+            queryClient.refetchQueries({queryKey:['myMeetings']})
+        },
+        onSettled:()=>{
+            form.resetFields();
+            close.current?.click()
         }
     })
 
@@ -111,7 +119,7 @@ const NewMeetingDrawer = (props: Props) => {
                                 onChange={onGenderChange}
                                 filterOption={false}
                                 mode="multiple"
-                                allowClear
+                                allowClear  
                                 loading={data.isLoading}
                                 onSearch={(value) => setSearchText(value)}
                             >
@@ -127,11 +135,11 @@ const NewMeetingDrawer = (props: Props) => {
                     </>
                     <Form.Item style={{marginTop: "auto"}}>
                         <Flex justify={"end"} gap={12}>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={mutation.isPending}>
                                 Submit
                             </Button>
-                            <Button htmlType="button" onClick={onReset}>
-                                Reset
+                            <Button htmlType="button" ref={close} onClick={props.onClose}>
+                                cancel
                             </Button>
                         </Flex>
                     </Form.Item>
