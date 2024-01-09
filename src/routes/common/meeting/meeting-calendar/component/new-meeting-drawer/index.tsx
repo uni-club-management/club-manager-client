@@ -1,7 +1,7 @@
 import {DrawerProps} from "antd/es/drawer";
 import {Button, Drawer, Flex, Form, Input, Select, TimePicker, Typography} from "antd";
 import dateFormat from "dateformat";
-import React from "react";
+import React, {useRef} from "react";
 import  {Dayjs} from 'dayjs';
 import {NewMeetingRequest, Student} from "../../../../../../types";
 import axios from "axios";
@@ -25,9 +25,8 @@ type FormData = {
 const NewMeetingDrawer = (props: Props) => {
 
     const [searchText, setSearchText] = React.useState<string>("");
-    const close = React.useRef<any>();
     const [form] = Form.useForm();
-    
+    const closeButtonRef = useRef<HTMLElement | null>(null);
     const queryClient = useQueryClient()
     const chosenDateTime= new Date(+props.date);
 
@@ -107,9 +106,11 @@ const NewMeetingDrawer = (props: Props) => {
             });
         },
         onSettled: () => {
-
+            form.resetFields
+            closeButtonRef.current?.click()
         }
     })
+
 
 
     return (
@@ -163,7 +164,8 @@ const NewMeetingDrawer = (props: Props) => {
                             <Button type="primary" htmlType="submit" loading={mutation.isPending}>
                                 Submit
                             </Button>
-                            <Button htmlType="button" onClick={onReset} disabled={mutation.isPending}>
+                            <Button htmlType="button" onClick={props.onClose} disabled={mutation.isPending}
+                                    ref={closeButtonRef}>
                                 Reset
                             </Button>
                         </Flex>
