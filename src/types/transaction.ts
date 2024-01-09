@@ -12,8 +12,6 @@
  * Do not edit the class manually.
  */
 
-import { Document } from './document';
-import { Event } from './event';
 import {
     Document,Event,
 } from ".";

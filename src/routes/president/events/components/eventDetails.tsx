@@ -1,13 +1,11 @@
 import React, { } from 'react';
-import { Avatar, Card, Divider, Flex, Image, List, Skeleton, Tag, Typography } from 'antd';
-import { Event, Student } from '../../../../types';
+import {  Card, Divider, Flex, Image, Tag, Typography } from 'antd';
+import { Event } from '../../../../types';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { EditOutlined } from '@ant-design/icons';
-import { render } from 'react-dom';
 import getDaysLeft from '../../../../utils/days-left';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import ParticipantsList from './participantsList';
 import TransactionsList from './transactionsList';
 
@@ -22,7 +20,7 @@ const statusColors = {
 };
 
 
-const eventDetails: React.FC = () => {
+const EventDetails: React.FC = () => {
     const { eventId } = useParams()
 
     const getEvent = async (): Promise<Event> => {
@@ -114,4 +112,4 @@ const eventDetails: React.FC = () => {
     );
 };
 
-export default eventDetails;
+export default EventDetails;

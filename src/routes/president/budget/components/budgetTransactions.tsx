@@ -1,11 +1,12 @@
-import { Button, Card, Form, Modal, Popconfirm, Table, Tag } from 'antd'
-import React, { useState } from 'react'
+import {Button, Card, Flex, Popconfirm, Table, Tag, Tooltip} from 'antd'
+import { useState } from 'react'
 import { Budget, Event, Transaction } from '../../../../types'
 import axios from 'axios'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import { ColumnsType } from 'antd/es/table'
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import {CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons'
 import NewTransactionModal from './newTransactionForm'
+import {toast} from "react-toastify";
 
 
 
@@ -13,10 +14,11 @@ type Props = {
     budget: Budget
 }
 
-const budgetTransactions = ({budget}: Props) => {
+const BudgetTransactions = ({budget}: Props) => {
     const [pageNumber,setPageNumber] = useState<number>(1)
     const [pageSize,setPageSize] = useState<number>(4)
     const [totalRows, setTotalRows]= useState<number>(0)
+    const queryClient = useQueryClient();
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
@@ -37,6 +39,42 @@ const budgetTransactions = ({budget}: Props) => {
         })
     }
 
+    const changeStatus = useMutation({
+        mutationFn: ({id, operation}: {id: number, operation: "reject"|"approve"}) => {
+            if (operation === "reject")
+                return axios.put(`http://localhost:8080/api/v1/transactions/${id}/reject`)
+            else
+                return axios.put(`http://localhost:8080/api/v1/transactions/${id}/approve`)
+        },
+        onSuccess: () => {
+
+            queryClient.refetchQueries({queryKey: ['transactions',budget.idBudget,pageNumber,pageSize]}).then(() => {
+                toast.success('status changed successfully', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            })
+        },
+        onError: () => {
+            toast.error('A problem occurred', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        },
+    })
+
     
         const transactions = useQuery<Transaction[],Error>({
             queryKey:['transactions',budget.idBudget,pageNumber,pageSize],
@@ -44,7 +82,7 @@ const budgetTransactions = ({budget}: Props) => {
         })
        
         const deleteTransaction = useMutation({
-            mutationFn: (id:number|undefined):Promise<any> =>{
+            mutationFn: (id:number|undefined):Promise<void> =>{
                 return axios.delete(`http://localhost:8080/api/v1/transactions/${id}`)
             },
             onSuccess: ()=>{
@@ -95,15 +133,42 @@ const budgetTransactions = ({budget}: Props) => {
                 key:'action',
                 width: 100,
                 render: (status,record)=>(
-                    <Popconfirm title='Sure to delete ?' okText='Yes' cancelText='No' onConfirm={()=>{deleteTransaction.mutate(record.idTransaction)}} >
-                        <Button type='link' disabled={status!='PENDING'}><DeleteOutlined/></Button>
-                    </Popconfirm>
+                    <Flex align={"center"} justify={"center"} gap={8}>
+                        <Tooltip title={"approuve"}>
+                            <Button type={"link"}
+                                    disabled={status == 'APPROVED' && status!='PENDING'}
+                                    onClick={() => changeStatus.mutate({
+                                        id: record.idTransaction as number,
+                                        operation: "approve"
+                                    })}
+                                    icon={<CheckOutlined/>}
+                            />
+                        </Tooltip>
+                        <Tooltip title={"reject"}>
+                            <Button
+                                type={"link"}
+                                style={{filter:"grayscale(1)"}}
+                                ghost
+                                disabled={status == 'REJECTED' && status!='PENDING'}
+                                onClick={() => changeStatus.mutate({
+                                    id: record.idTransaction as number,
+                                    operation: "reject"
+                                })}
+                                icon={<CloseOutlined/>}
+                            />
+                        </Tooltip>
+                        <Popconfirm title='Sure to delete ?' okText='Yes' cancelText='No' onConfirm={()=>{deleteTransaction.mutate(record.idTransaction)}} >
+                            <Tooltip title={"delete"}>
+                                <Button type='link' danger disabled={status!='PENDING'}><DeleteOutlined/></Button>
+                            </Tooltip>
+                        </Popconfirm>
+                    </Flex>
                 )
             }
            
         ]
   return (
-    <Card title='Transactions History' style={{width:'100%'}} extra={<Button onClick={e=>setIsModalVisible(true)} type='primary' icon={<PlusOutlined/>}>New Transaction</Button>} >
+    <Card title='Transactions History' style={{width:'100%'}} extra={<Button onClick={()=>setIsModalVisible(true)} type='primary' icon={<PlusOutlined/>}>New Transaction</Button>} >
         <Table
             //scroll
 
@@ -129,4 +194,4 @@ const budgetTransactions = ({budget}: Props) => {
   )
 }
 
-export default budgetTransactions
+export default BudgetTransactions
