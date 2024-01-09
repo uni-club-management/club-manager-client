@@ -11,7 +11,6 @@ import React from "react";
 import {AuthContext} from "./context";
 import {AuthenticationResponseRolesEnum} from "./types";
 import {useCookies} from "react-cookie";
-import axios from "axios";
 import {adminOptions, presidentOptions} from "./layouts/side-bar-options.ts";
 import Members from './routes/president/members/index.tsx';
 import Events from './routes/president/events/index.tsx';
