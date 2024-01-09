@@ -103,7 +103,7 @@ const EventDetails: React.FC = () => {
 
 
                         </Card> */}
-                        <TransactionsList eventId={eventId} />
+                        <TransactionsList eventId={eventId as string} />
                     </Flex>
                 </Flex>
             </Card>
