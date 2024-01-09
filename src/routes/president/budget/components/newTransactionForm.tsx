@@ -91,7 +91,6 @@ const NewTransactionModal = (props: Props) => {
             title="Request a Transaction" 
             open={props.isVisible}
             onCancel={() => props.setIsModalVisible(false)}
-            
             footer={[
                 <Button key='submit' type='primary' 
                     loading={mutation.isPending} 
@@ -120,7 +119,7 @@ const NewTransactionModal = (props: Props) => {
                                 <Select.Option value={event.idEvent}>{event.name}</Select.Option>
                             ))}
                         </Select>
-                        : <b>{events.isSuccess && events.data.filter((value) => value.idEvent === props.idEvent)[0].name}</b>
+                        : <b>{ "placeholder"}</b>
                     }
                 </Form.Item>
                 <Form.Item label="Amount" name="valeur">
