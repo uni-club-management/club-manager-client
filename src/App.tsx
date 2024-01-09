@@ -8,10 +8,9 @@ import MeetingCalendar from "./routes/common/meeting/meeting-calendar";
 import EventList from "./routes/admin/events/event-list";
 import LoginPage from "./routes/login";
 import React from "react";
-import {AuthContext} from "./context/AuthContext.tsx";
+import {AuthContext} from "./context";
 import {AuthenticationResponseRolesEnum} from "./types";
 import {useCookies} from "react-cookie";
-import axios from "axios";
 import {adminOptions, presidentOptions} from "./layouts/side-bar-options.ts";
 import Members from './routes/president/members/index.tsx';
 import Events from './routes/president/events/index.tsx';
@@ -28,6 +27,7 @@ function App() {
 
     const getToken = React.useCallback(() => {
             if (cookies.token) {
+                /*
                 axios.post("http://localhost:8080/api/v1/auth/refresh-token", {}, {
                     headers: {
                         Authorization: `Bearer ${cookies.token}`
@@ -36,6 +36,7 @@ function App() {
                     setCookie('token', res.data, {path: '/', maxAge: 86400})
                     axios.defaults.headers.common['Authorization'] = "Bearer " + res.data?.refreshToken
                 })
+                 */
             }
         },
         [cookies.token, setCookie]

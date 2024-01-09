@@ -1,10 +1,11 @@
-import {Card, Dropdown, Flex, Image, MenuProps, Tabs, TabsProps, Tag, Typography} from "antd";
+import {Button, Card,  Flex, Image,  Tabs, TabsProps, Tag, Typography} from "antd";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
-import {ClubDetails, ClubStatusEnum} from "../../../../types";
+import {ClubDetails} from "../../../../types";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import React from "react";
-import {DollarCircleOutlined, FileOutlined, TeamOutlined} from "@ant-design/icons";
+import {DollarCircleOutlined, EditOutlined, FileOutlined, TeamOutlined} from "@ant-design/icons";
+import ClubEditModal from "./components/club-edit-modal";
 
 
 const tabs: TabsProps['items'] = [
@@ -43,48 +44,11 @@ const tabs: TabsProps['items'] = [
 const ClubEditAdminPage = () => {
 
     const {clubId} = useParams();
-    const [clubStatus, setClubStatus] = React.useState<ClubStatusEnum>()
+    const [isModalOpen, setIsModelOpen] = React.useState<boolean>(false);
     const navigate = useNavigate()
     const path = useLocation()
 
 
-    const items: MenuProps['items'] = [
-        {
-            key: 'ACTIVE',
-            label: (
-                <Tag color={"green"}>ACTIVE</Tag>
-            ),
-            onClick: () => setClubStatus(ClubStatusEnum.ACTIVE)
-        },
-        {
-            key: 'CREATION_STEP_1',
-            label: (
-                <Tag color={"orange"}>CREATION_STEP_1</Tag>
-            ),
-            onClick: () => setClubStatus(ClubStatusEnum.CREATIONSTEP1)
-        },
-        {
-            key: 'CREATION_STEP_2',
-            label: (
-                <Tag color={"purple"}>CREATION_STEP_2</Tag>
-            ),
-            onClick: () => setClubStatus(ClubStatusEnum.CREATIONSTEP2)
-        },
-        {
-            key: 'CREATION_STEP_3',
-            label: (
-                <Tag color={"blue"}>CREATION_STEP_3</Tag>
-            ),
-            onClick: () => setClubStatus(ClubStatusEnum.CREATIONSTEP3)
-        },
-        {
-            key: 'ABANDONED',
-            label: (
-                <Tag color={"volcano"}>ABANDONED</Tag>
-            ),
-            onClick: () => setClubStatus(ClubStatusEnum.ABANDONED)
-        },
-    ];
     const fetchClubInfo = (): Promise<ClubDetails> => {
         return axios.get<ClubDetails>(`http://localhost:8080/api/v1/clubs/${clubId as string}/details`).then(res => {
             return res.data
@@ -95,8 +59,6 @@ const ClubEditAdminPage = () => {
         queryKey: ['clubInfo', clubId],
         queryFn: fetchClubInfo,
     })
-
-    console.log(clubStatus)
 
 
     return (
@@ -115,31 +77,32 @@ const ClubEditAdminPage = () => {
                             <Typography.Title level={2}>
                                 {data?.data?.club?.name}
                             </Typography.Title>
-                            <Dropdown menu={{items}}>
-                                <Tag
-                                    style={{width: "fit-content"}}
-                                    color={
-                                        data?.data?.club?.status == "ACTIVE" ? "green" :
-                                            data?.data?.club?.status == "CREATION_STEP_1" ? "orange" :
-                                                data?.data?.club?.status == "CREATION_STEP_2" ? "purple" :
-                                                    data?.data?.club?.status == "CREATION_STEP_3" ? "blue" :
-                                                        data?.data?.club?.status == "ABANDONED" ? "volcano" :
-                                                            "red"}
-                                >
-                                    {data?.data?.club?.status}
-                                </Tag>
-                            </Dropdown>
+                            <Tag
+                                style={{width: "fit-content"}}
+                                color={
+                                    data?.data?.club?.status == "ACTIVE" ? "green" :
+                                        data?.data?.club?.status == "CREATION_STEP_1" ? "orange" :
+                                            data?.data?.club?.status == "CREATION_STEP_2" ? "purple" :
+                                                data?.data?.club?.status == "CREATION_STEP_3" ? "blue" :
+                                                    data?.data?.club?.status == "ABANDONED" ? "volcano" :
+                                                        "red"}
+                            >
+                                {data?.data?.club?.status}
+                            </Tag>
                             <Typography.Paragraph>{data?.data?.club?.description}</Typography.Paragraph>
                             <Typography.Title level={5}>about the club</Typography.Title>
                             <Typography.Paragraph>{data?.data?.aboutUs}</Typography.Paragraph>
 
                         </Flex>
-
+                        <Button style={{marginLeft: "auto"}} icon={<EditOutlined/>}
+                                onClick={() => setIsModelOpen(true)}/>
                     </Flex>
                 </Flex>
             </Card>
+            <ClubEditModal club={data?.data?.club} open={isModalOpen} onCancel={() => setIsModelOpen(false)}/>
             <Card>
-                <Tabs activeKey={path.pathname.split('/')[4] ?? 'budget'} items={tabs} onChange={(key : string) => (navigate(`${key}`))}/>
+                <Tabs activeKey={path.pathname.split('/')[4] ?? 'budget'} items={tabs}
+                      onChange={(key: string) => (navigate(`${key}`))}/>
             </Card>
         </Flex>
     );

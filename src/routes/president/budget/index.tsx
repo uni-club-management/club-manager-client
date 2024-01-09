@@ -1,4 +1,4 @@
-import {  Divider, Flex } from 'antd'
+import {Divider, Flex, Spin} from 'antd'
 import { Budget } from '../../../types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
@@ -34,10 +34,18 @@ const ClubBudget = () => {
     
   return (
     <Flex gap='middle' vertical >
-        <BudgetCard budget={budgets.data? budgets.data[0]:{}} />
-        <Divider/>
-
-        <BudgetCard budget={budgets.data? budgets.data[1]:{}} />
+        {
+            budgets.isSuccess?
+                (
+                    <>
+                        <BudgetCard budget={budgets.data&& budgets!.data![0]} />
+                        <Divider/>
+                        <BudgetCard budget={budgets.data&& budgets!.data![1]} />
+                    </>
+                )
+                :
+                <Spin/>
+        }
 
     </Flex>
   )
