@@ -1,6 +1,9 @@
-import {Layout, Menu, MenuProps, theme} from 'antd';
+import {Avatar, Button, Dropdown, Flex, Layout, Menu, MenuProps, theme} from 'antd';
 import {Outlet, useLocation, useNavigate} from 'react-router-dom';
-import {useState} from "react";
+import {useContext, useState} from "react";
+import logo from "./../assets/logo.png"
+import {AuthContext} from "../context";
+import {PoweroffOutlined} from "@ant-design/icons";
 
 const {Content, Sider, Header} = Layout;
 
@@ -13,9 +16,7 @@ export default function RootLayout(props: Props) {
     const path = useLocation()
     const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: {colorBgContainer},
-    } = theme.useToken();
+
 
     console.log(path.pathname.split('/'))
     return (
@@ -33,13 +34,21 @@ export default function RootLayout(props: Props) {
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
             >
-                <div style={{
-                    height: '32px',
+                <Flex justify={"center"} style={{
+                    height: '56px',
                     borderRadius: '6px',
-                    background: 'rgba(255,255,255,.2)',
-                    margin: '16px'
-                }}>Logo
-                </div>
+                    marginBottom: '26px',
+                    margin: '4px'
+                }}>
+                    <img
+                        src={logo}
+                        alt={"logo"}
+                        style={{
+                            height: '56px',
+                            borderRadius: '6px',
+                        }}
+                    />
+                </Flex>
 
                 <Menu
                     mode="inline"
@@ -52,7 +61,7 @@ export default function RootLayout(props: Props) {
                 </Menu>
             </Sider>
             <Layout style={{marginLeft: collapsed ? 80 : 200, minHeight:'100vh', transition: 'all 0.2s,background 0s'}}>
-                <Header style={{padding: 0, background: colorBgContainer}}/>
+                <LayoutHeader/>
                 <Content
                     style={{
                         padding: 24,
@@ -68,3 +77,46 @@ export default function RootLayout(props: Props) {
         </Layout>
     );
 }
+
+
+const LayoutHeader = () => {
+
+    const {
+        token: {colorBgContainer},
+    } = theme.useToken();
+    const { setUser} = useContext(AuthContext);
+    const navigate = useNavigate()
+
+
+    const items: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <Button
+                    type={"link"}
+                    danger
+                    onClick={() => {
+                        setUser(undefined)
+                        navigate('/login')
+                    }}
+                >
+                    <PoweroffOutlined/>
+                    logOut
+                </Button>
+            ),
+        },
+    ];
+
+    return (
+        <Header style={{padding: "0px 32px", background: colorBgContainer}}>
+            <Flex justify={"end"} align={"center"}>
+                <Dropdown menu={{ items }}>
+                    <a onClick={(e) => e.preventDefault()}>
+                        <Avatar src={'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'}/>
+                    </a>
+                </Dropdown>
+            </Flex>
+        </Header>
+    );
+};
+
