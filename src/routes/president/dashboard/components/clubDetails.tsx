@@ -3,6 +3,7 @@ import { UseQueryResult } from '@tanstack/react-query'
 import { Button, Card, Flex, Tag, Typography , Image} from 'antd'
 import React from 'react'
 import { ClubDetails } from '../../../../types'
+import ClubEditModel from './clubEditModel'
 
 type Props = {
   clubDetails: UseQueryResult<ClubDetails, Error>
@@ -10,8 +11,12 @@ type Props = {
 }
 
 function ClubDetailsCard({clubDetails,isMobile}: Props) {
+
+  const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false)
+
   return (
     <Card bordered={true} loading={clubDetails.isLoading} style={{width:"fit-content"}}>
+      <ClubEditModel isVisible={isModalVisible} setIsModalVisible={setIsModalVisible} clubDetails={clubDetails} />
       <Flex gap={"16px"} align="center" vertical={isMobile} >
         <Image
           loading={"eager"}
@@ -56,6 +61,7 @@ function ClubDetailsCard({clubDetails,isMobile}: Props) {
               icon={<EditOutlined />}
               size="large"
               style={{ marginLeft: "auto" }}
+              onClick={()=>setIsModalVisible(true)}
             />
           </div>
 
