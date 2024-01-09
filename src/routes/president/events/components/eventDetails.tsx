@@ -1,15 +1,17 @@
-import React, { } from 'react';
-import {  Card, Divider, Flex, Image, Tag, Typography } from 'antd';
-import { Event } from '../../../../types';
-import { useParams } from 'react-router-dom';
+import React, {useContext, useState} from 'react';
+import {Card, Divider, Flex, Image, Tag, Typography} from 'antd';
+import {AuthenticationResponseRolesEnum, Event} from '../../../../types';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import { EditOutlined } from '@ant-design/icons';
+import {useQuery} from '@tanstack/react-query';
+import {EditOutlined} from '@ant-design/icons';
 import getDaysLeft from '../../../../utils/days-left';
 import ParticipantsList from './participantsList';
 import TransactionsList from './transactionsList';
+import {AuthContext} from "../../../../context";
+import {EditEventModalAdmin, EditEventModalPresident} from "./EditEventModal.tsx";
 
-const { Text } = Typography
+const {Text} = Typography
 
 const statusColors = {
     REQUESTED: 'blue',
@@ -21,8 +23,10 @@ const statusColors = {
 
 
 const EventDetails: React.FC = () => {
-    const { eventId } = useParams()
-
+    const {eventId} = useParams()
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showAdminModal, setShowAdminModal] = useState<boolean>(false);
+    const {user} = useContext(AuthContext);
     const getEvent = async (): Promise<Event> => {
         try {
             const res = await axios.get(`http://localhost:8080/api/v1/events/${eventId}`);
@@ -40,7 +44,6 @@ const EventDetails: React.FC = () => {
         queryFn: getEvent
     })
 
-    
 
     const items = [
         {
@@ -65,45 +68,52 @@ const EventDetails: React.FC = () => {
 
     return (
         <Flex vertical>
-            <Card style={{ backgroundColor: 'transparent' }}>
+            <Card style={{backgroundColor: 'transparent'}}>
                 <h1>{event.data?.name}</h1>
 
                 <Flex gap='middle' vertical>
-                    <Image src={event.data?.cover} alt='event-cover' style={{ borderRadius: '10px' }} />
-                    <Flex gap='middle' >
+                    <Image src={event.data?.cover} alt='event-cover' style={{borderRadius: '10px'}}/>
+                    <Flex justify={"space-between"}>
 
-                        
-                        <Card title='Details' style={{  width: '500px' }} bordered={false} extra={<EditOutlined onClick={() => console.log('click')} />}>
+
+                        <Card
+                            title='Details'
+                            style={{width: '500px'}}
+                            bordered={false}
+                            extra={<EditOutlined onClick={() => {
+                                if (user?.roles?.includes(AuthenticationResponseRolesEnum.ADMIN)
+                                    || user?.roles?.includes(AuthenticationResponseRolesEnum.PROF)
+                                ) {
+                                    setShowAdminModal(true)
+                                } else {
+                                    setShowModal(true)
+                                }
+                            }}/>}
+                        >
                             {
                                 items.map((item, index) => (
                                     <p key={index}>
-                                        <Text type='secondary' >{item.label}:  </Text>
+                                        <Text type='secondary'>{item.label}: </Text>
                                         <Text>{item.children}</Text>
                                     </p>
                                 ))
                             }
-                            <Divider />
-                            <Typography.Title level={1} style={{ display: 'inline' }}>
+                            <Divider/>
+                            <Typography.Title level={1} style={{display: 'inline'}}>
                                 {
                                     event.data?.date ? getDaysLeft(event.data.date) : null
                                 }
                             </Typography.Title>
                             <Typography.Text type='secondary'>Days left</Typography.Text>
                         </Card>
-
-                        <ParticipantsList eventId={eventId} />
-                        
-                        {/* <Card style={{ height: 'fit-content', width: 'fit-content' }} bordered={false}>
-                            <Typography.Title level={1} style={{ display: 'inline' }}>
-                                {
-                                    event.data?.date ? getDaysLeft(event.data.date) : null
-                                }
-                            </Typography.Title>
-                            <Typography.Text type='secondary'>Days left</Typography.Text>
-
-
-                        </Card> */}
-                        <TransactionsList eventId={eventId as string} />
+                        <ParticipantsList eventId={eventId}/>
+                        <TransactionsList eventId={eventId as string}/>
+                        {event.isSuccess &&
+                            <>
+                                <EditEventModalPresident event={event.data} open={showModal} onCancel={() => setShowModal(false)}/>
+                                <EditEventModalAdmin event={event.data} open={showAdminModal} onCancel={() => setShowAdminModal(false)}/>
+                            </>
+                        }
                     </Flex>
                 </Flex>
             </Card>
