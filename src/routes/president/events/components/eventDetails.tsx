@@ -73,7 +73,7 @@ const EventDetails: React.FC = () => {
                     <Flex gap='middle' >
 
                         
-                        <Card title='Details' style={{ height: 'fit-content', width: '500px' }} bordered={false} extra={<EditOutlined onClick={() => console.log('click')} />}>
+                        <Card title='Details' style={{  width: '500px' }} bordered={false} extra={<EditOutlined onClick={() => console.log('click')} />}>
                             {
                                 items.map((item, index) => (
                                     <p key={index}>

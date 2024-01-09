@@ -25,7 +25,9 @@ type FormData = {
 const NewMeetingDrawer = (props: Props) => {
 
     const [searchText, setSearchText] = React.useState<string>("");
+    const close = React.useRef<any>();
     const [form] = Form.useForm();
+    
     const queryClient = useQueryClient()
     const chosenDateTime= new Date(+props.date);
 
@@ -55,9 +57,7 @@ const NewMeetingDrawer = (props: Props) => {
         });
     };
 
-    const onReset = () => {
-        form.resetFields();
-    };
+
 
     const searchStudents = (): Promise<Student[]> => {
         return axios.get<Student[]>("http://localhost:8080/api/v1/students", {
@@ -78,6 +78,7 @@ const NewMeetingDrawer = (props: Props) => {
         mutationFn: (body : NewMeetingRequest) => {
             return axios.post("http://localhost:8080/api/v1/meetings",body)
         },
+
         onSuccess: () => {
             form.resetFields;
             queryClient.refetchQueries({queryKey: ['myMeetings']}).then(() => {
@@ -143,7 +144,7 @@ const NewMeetingDrawer = (props: Props) => {
                                 onChange={onGenderChange}
                                 filterOption={false}
                                 mode="multiple"
-                                allowClear
+                                allowClear  
                                 loading={data.isLoading}
                                 onSearch={(value) => setSearchText(value)}
                             >
