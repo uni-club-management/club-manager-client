@@ -10,6 +10,7 @@ import {
 } from "antd";
 import ClubDetailsCard from "./components/clubDetails";
 import BarChart from "./components/barChart";
+import BudgetdonutChart from "./components/donutChart";
 
 type Props = {};
 
@@ -36,6 +37,7 @@ const Dashboard = (props: Props) => {
 
       <Flex wrap="wrap">
           <BarChart idClub={idClub }/>
+          <BudgetdonutChart idClub={idClub }/>
       </Flex>
     </Flex>
 
