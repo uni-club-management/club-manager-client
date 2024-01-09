@@ -1,20 +1,21 @@
-import { Transaction } from "../../../../types";
-import {
-  Card,
-  Divider,
-  Flex,
-  List,
-  Typography,
-} from "antd";
+import {AuthenticationResponseRolesEnum,  Transaction} from "../../../../types";
+import {Card, Divider, Flex, FloatButton, FloatButtonProps, List, Typography,} from "antd";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
+import {useContext, useState} from "react";
+import {AuthContext} from "../../../../context";
+import {PlusOutlined} from "@ant-design/icons";
+import NewTransactionModal from "../../budget/components/newTransactionForm.tsx";
 //TODO: apply infinite scroll
 
 type Props = {
-  eventId: string | undefined;
+  eventId: string ;
 };
 
-function transactionsList({ eventId }: Props) {
+function TransactionsList({ eventId }: Props) {
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+
   const getEventTransactions = async (): Promise<Transaction[]> => {
     try {
       const res = await axios.get(
@@ -73,8 +74,31 @@ function transactionsList({ eventId }: Props) {
           )}
         ></List>
       </div>
+      <NewTransactionModal isVisible={isModalVisible} setIsModalVisible={setIsModalVisible}
+                           idEvent={+eventId}
+
+                           refreshTransactions={transactions.refetch}/>
+        <NewTransactionButton onClick={()=>setIsModalVisible(true)}/>
+
     </Card>
   );
 }
 
-export default transactionsList;
+export default TransactionsList;
+
+
+const NewTransactionButton = (props: FloatButtonProps) => {
+
+  const {user} = useContext(AuthContext);
+
+  if (
+      !user?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT)
+      && !user?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT)
+      && !user?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER)
+  )
+    return null;
+
+  return (
+      <FloatButton onClick={props.onClick} type='primary' icon={<PlusOutlined/>} tooltip={"Add Transaction"}/>
+  );
+};

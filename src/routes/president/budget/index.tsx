@@ -1,5 +1,5 @@
-import {Divider, Flex, Spin} from 'antd'
-import { Budget } from '../../../types'
+import {Flex, Spin} from 'antd'
+import {Budget, BudgetBudgetTypeEnum} from '../../../types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import BudgetCard from './components/budgetCard'
@@ -36,13 +36,16 @@ const ClubBudget = () => {
     <Flex gap='middle' vertical >
         {
             budgets.isSuccess?
-                (
-                    <>
-                        <BudgetCard budget={budgets.data&& budgets!.data![0]} />
-                        <Divider/>
-                        <BudgetCard budget={budgets.data&& budgets!.data![1]} />
-                    </>
-                )
+                budgets.data?.sort((a) => {
+                    if (a.budgetType === BudgetBudgetTypeEnum._1)
+                        return -1
+                    else
+                        return 1
+                }).map((budget) => {
+                    return (
+                        <BudgetCard budget={budget}/>
+                    )
+                })
                 :
                 <Spin/>
         }
