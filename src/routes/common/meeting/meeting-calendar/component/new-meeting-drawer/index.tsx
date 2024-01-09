@@ -1,12 +1,13 @@
 import {DrawerProps} from "antd/es/drawer";
 import {Button, Drawer, Flex, Form, Input, Select, TimePicker, Typography} from "antd";
 import dateFormat from "dateformat";
-import React from "react";
+import React, {useRef} from "react";
 import  {Dayjs} from 'dayjs';
 import {NewMeetingRequest, Student} from "../../../../../../types";
 import axios from "axios";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import { CompoundedComponent } from "antd/es/float-button/interface";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {useQueryClient} from "@tanstack/react-query";
+import {toast} from "react-toastify";
 
 
 interface Props extends DrawerProps {
@@ -24,10 +25,9 @@ type FormData = {
 const NewMeetingDrawer = (props: Props) => {
 
     const [searchText, setSearchText] = React.useState<string>("");
-    const close = React.useRef<any>();
     const [form] = Form.useForm();
-    const queryClient = useQueryClient();
-
+    const closeButtonRef = useRef<HTMLElement | null>(null);
+    const queryClient = useQueryClient()
     const chosenDateTime= new Date(+props.date);
 
     const onGenderChange = (value: string) => {
@@ -77,14 +77,40 @@ const NewMeetingDrawer = (props: Props) => {
         mutationFn: (body : NewMeetingRequest) => {
             return axios.post("http://localhost:8080/api/v1/meetings",body)
         },
-        onSuccess:() => {
-            queryClient.refetchQueries({queryKey:['myMeetings']})
+
+        onSuccess: () => {
+            form.resetFields;
+            queryClient.refetchQueries({queryKey: ['myMeetings']}).then(() => {
+                toast.success('meeting created successfully', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            })
         },
-        onSettled:()=>{
-            form.resetFields();
-            close.current?.click()
+        onError: () => {
+            toast.error('A problem occurred', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        },
+        onSettled: () => {
+            form.resetFields
+            closeButtonRef.current?.click()
         }
     })
+
 
 
     return (
@@ -138,8 +164,9 @@ const NewMeetingDrawer = (props: Props) => {
                             <Button type="primary" htmlType="submit" loading={mutation.isPending}>
                                 Submit
                             </Button>
-                            <Button htmlType="button" ref={close} onClick={props.onClose}>
-                                cancel
+                            <Button htmlType="button" onClick={props.onClose} disabled={mutation.isPending}
+                                    ref={closeButtonRef}>
+                                Reset
                             </Button>
                         </Flex>
                     </Form.Item>

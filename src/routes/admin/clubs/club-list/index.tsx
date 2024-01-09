@@ -10,17 +10,14 @@ import {Link} from "react-router-dom";
 import {EditOutlined} from "@ant-design/icons";
 
 
-
-
 const ClubList = () => {
 
     const [pageNumber, setPageNumber] = React.useState<number>(1)
     const [pageSize, setPageSize] = React.useState<number>(10)
     const [totalRows, setTotalRows] = React.useState<number>(10)
     const [searchText, setSearchText] = React.useState<string>("")
-    const [status, setStatus] = React.useState<string[]|null>()
-    const [type, setType] = React.useState<string[]|null>()
-
+    const [status, setStatus] = React.useState<string[] | null>()
+    const [type, setType] = React.useState<string[] | null>()
 
 
     const columns: ColumnsType<Club> = [
@@ -43,7 +40,7 @@ const ClubList = () => {
                     <Tag color={type == "NORMAL" ? "geekblue" : "magenta"}>{toProperCase(type)}</Tag>
                 )
             },
-            filters:[
+            filters: [
                 {
                     text: <Tag color={"geekblue"}>NORMAL</Tag>,
                     value: "NORMAL"
@@ -74,7 +71,7 @@ const ClubList = () => {
                     </Tag>
                 )
             },
-            filters:[
+            filters: [
                 {
                     text: <Tag color={"green"}>ACTIVE</Tag>,
                     value: "ACTIVE"
