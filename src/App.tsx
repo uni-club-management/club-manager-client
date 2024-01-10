@@ -130,6 +130,8 @@ function App() {
                      user?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY) ?
                          <Route path={"secretary"} element={<RootLayout options={secretaryOptions}/>}>
                              <Route path='members' element={<Members/>}/>
+                            <Route path='dashboard' element={<Dashboard/>}/>
+
                              <Route path='events'>
                                  <Route index element={<Events/>}/>
                                  <Route path=':eventId' element={<EventDetails/>}/>
