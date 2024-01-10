@@ -7,6 +7,7 @@ import axios from "axios";
 import {
   Card,
   Flex,
+  Typography,
 } from "antd";
 import ClubDetailsCard from "./components/clubDetails";
 import BarChart from "./components/barChart";
@@ -25,11 +26,17 @@ const Dashboard = (props: Props) => {
     queryKey: ["clubDetails", idClub],
     queryFn: () =>
       axios
-        .get(`http://localhost:8080/api/v1/clubs/${2}/details`)
+        .get(`http://localhost:8080/api/v1/clubs/${idClub}/details`)
         .then((res) => res.data),
   });
 
-  
+  const membersCount= useQuery<number, Error>({
+    queryKey: ["membersCount", idClub],
+    queryFn: () =>
+      axios
+        .get(`http://localhost:8080/api/v1/clubs/${idClub}/members/count`)
+        .then((res) => res.data),
+  });
 
   return (
     <Flex vertical gap="middle" >
@@ -38,6 +45,10 @@ const Dashboard = (props: Props) => {
       <Flex wrap="wrap"  gap="middle">
           <BarChart idClub={idClub }/>
           <BudgetdonutChart idClub={idClub }/>
+          <Card style={{height:"fit-content"}}>
+          <Typography.Title style={{display:'inline'}} level={2}>{membersCount.data}</Typography.Title>
+                    <Typography.Text type='secondary'> Member</Typography.Text>
+          </Card>
       </Flex>
     </Flex>
 
