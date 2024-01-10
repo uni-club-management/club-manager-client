@@ -117,7 +117,7 @@ const  BarChart = ({idClub}:Props) => {
     
   };
   return(
-<Card style={{width:"400px"}}>
+<Card style={{width:"400px",  height:"fit-content"}}>
     <Typography.Title level={4}>Events by status</Typography.Title>
     <Column {...config} height={300} width={400}/>
   </Card>
