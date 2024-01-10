@@ -35,7 +35,7 @@ const Dashboard = (props: Props) => {
     <Flex vertical gap="middle" >
       <ClubDetailsCard clubDetails={clubDetails} isMobile={isMobile} />
 
-      <Flex wrap="wrap">
+      <Flex wrap="wrap"  gap="middle">
           <BarChart idClub={idClub }/>
           <BudgetdonutChart idClub={idClub }/>
       </Flex>

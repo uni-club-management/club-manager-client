@@ -60,13 +60,12 @@ const BudgetdonutChart = ({idClub}:Props) => {
     label: {
         type: 'inner',
         offset: '-50%',
-        content: ({ percent }: { percent: number }) => `${(percent * 100).toFixed(2)}%`, // Display percentages as labels
+        content: '{value}',
         style: {
           textAlign: 'center',
           fontSize: 14,
-          fill: '#ffffff',
         },
-      }, 
+      },
     
     interactions: [
       {
@@ -77,21 +76,21 @@ const BudgetdonutChart = ({idClub}:Props) => {
       },
     ],
     statistic: {
-      title: "Budget",
+      title: false,
       content: {
         style: {
           whiteSpace: 'pre-wrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
         },
-        content: 'AntV\nG2Plot',
+        content: 'Budget\nusage',
       },
     },
     
   };
   return (
     <Card style={{height:"fit-content"}}>
-        <Pie {...config} height={300} width={200} />
+        <Pie {...config} height={300} width={250} />
 
     </Card>
   );
