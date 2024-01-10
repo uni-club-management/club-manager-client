@@ -11,7 +11,7 @@ import React from "react";
 import {AuthContext} from "./context";
 import {AuthenticationResponseRolesEnum} from "./types";
 import {useCookies} from "react-cookie";
-import {adminOptions, presidentOptions, treasurerOptions} from "./layouts/side-bar-options.ts";
+import {adminOptions, presidentOptions, secretaryOptions, treasurerOptions} from "./layouts/side-bar-options.ts";
 import Members from './routes/president/members/index.tsx';
 import Events from './routes/president/events/index.tsx';
 import EventDetails from './routes/president/events/components/eventDetails.tsx';
@@ -127,7 +127,7 @@ function App() {
                          </Route>
                      :
                      user?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY) ?
-                         <Route path={"secretary"} element={<RootLayout options={treasurerOptions}/>}>
+                         <Route path={"secretary"} element={<RootLayout options={secretaryOptions}/>}>
                              <Route path='members' element={<Members/>}/>
                              <Route path='events'>
                                  <Route index element={<Events/>}/>

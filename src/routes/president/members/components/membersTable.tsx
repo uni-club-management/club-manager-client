@@ -54,6 +54,7 @@ export default function MembersTable() {
         hiddenFileInput!.current!.click();
     };
 
+
     const handleChange = event => {
         const fileUploaded = event.target.files[0];
         mutation.mutate(fileUploaded);
