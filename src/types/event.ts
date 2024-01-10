@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { Club } from './club';
+
 import {
     Club,
 } from ".";

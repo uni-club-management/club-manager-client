@@ -11,13 +11,14 @@ import React from "react";
 import {AuthContext} from "./context";
 import {AuthenticationResponseRolesEnum} from "./types";
 import {useCookies} from "react-cookie";
-import {adminOptions, presidentOptions} from "./layouts/side-bar-options.ts";
+import {adminOptions, presidentOptions, secretaryOptions, treasurerOptions} from "./layouts/side-bar-options.ts";
 import Members from './routes/president/members/index.tsx';
 import Events from './routes/president/events/index.tsx';
 import EventDetails from './routes/president/events/components/eventDetails.tsx';
 import Budget from './routes/president/budget/index.tsx';
 import ClubMembers from "./routes/president/members/index.tsx";
 import ClubBudget from "./routes/president/budget/index.tsx";
+import NewClubPage from "./routes/common/new-club";
 import Dashboard from './routes/president/dashboard/index.tsx';
 
 function App() {
@@ -71,7 +72,6 @@ function App() {
                                     <Route path={"documents"} element={<ClubDocumentsList/>}/>
                                 </Route>
                             </Route>
-
                             <Route path='events'>
                                 <Route index element={<EventList/>}/>
                                 <Route path=':eventId' element={<EventDetails/>}/>
@@ -80,7 +80,22 @@ function App() {
                         </Route>
                     :
                     user?.roles?.includes(AuthenticationResponseRolesEnum.PROF) ?
-                        <Route path={"prof"} element={<div>Prof protected Page</div>}/>
+                        <Route path={"/prof"} element={<RootLayout options={adminOptions}/>}>
+                            <Route path='clubs'>
+                                <Route index element={<ClubList/>}/>
+                                <Route path=':clubId' element={<ClubEditAdminPage/>}>
+                                    <Route index element={<ClubBudget/>}/>
+                                    <Route path={"budget"} element={<ClubBudget/>}/>
+                                    <Route path={"members"} element={<ClubMembers/>}/>
+                                    <Route path={"documents"} element={<ClubDocumentsList/>}/>
+                                </Route>
+                            </Route>
+                            <Route path='events'>
+                                <Route index element={<EventList/>}/>
+                                <Route path=':eventId' element={<EventDetails/>}/>
+                            </Route>
+                            <Route path='meetings' element={<MeetingCalendar/>}/>
+                        </Route>
                     :
                     user?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT) ?
                         <Route path='/president' element={<RootLayout options={presidentOptions}/>}>
@@ -94,13 +109,38 @@ function App() {
                             <Route path='meetings' element={<MeetingCalendar/>}/>
                         </Route>
                     :
-                    user?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER) ?
-                        <Route path={"treasurer"} element={<div>Treasurer protected Page</div>}/>
-                    :
-                    user?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY) ?
-                        <Route path={"secretary"} element={<div>Secretary protected Page</div>}/>
-                    :
-                        <Route path={"*"} element={<Navigate to='/login' replace/>}/>
+                     user?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT) ?
+                         <Route path='/vice-president' element={<RootLayout options={presidentOptions}/>}>
+                            <Route path='dashboard' element={<Dashboard/>}/>
+                             <Route path='members' element={<Members/>}/>
+                             <Route path='events'>
+                                 <Route index element={<Events/>}/>
+                                 <Route path=':eventId' element={<EventDetails/>}/>
+                             </Route>
+                             <Route path='budget' element={<Budget/>}/>
+                             <Route path='meetings' element={<MeetingCalendar/>}/>
+                         </Route>
+                         :
+                     user?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER) ?
+                         <Route path={"treasurer"} element={<RootLayout options={treasurerOptions}/>}>
+                             <Route path='budget' element={<Budget/>}/>
+                             <Route path='meetings' element={<MeetingCalendar/>}/>
+                         </Route>
+                     :
+                     user?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY) ?
+                         <Route path={"secretary"} element={<RootLayout options={secretaryOptions}/>}>
+                             <Route path='members' element={<Members/>}/>
+                             <Route path='events'>
+                                 <Route index element={<Events/>}/>
+                                 <Route path=':eventId' element={<EventDetails/>}/>
+                             </Route>
+                             <Route path='meetings' element={<MeetingCalendar/>}/>
+                         </Route>
+                     :
+                     user?.roles?.includes(AuthenticationResponseRolesEnum.STUDENT) ?
+                         <Route path={"/create-club"} element={<NewClubPage/>}/>
+                     :
+                         <Route path={"*"} element={<Navigate to='/login' replace/>}/>
                 }
             </Route>
         )

@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, Flex, Table, Tag} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
-import {Club} from "../../../../types";
+import {AuthenticationResponseRolesEnum, Club} from "../../../../types";
 import {toProperCase} from "../../../../utils/string-formater.ts";
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import Search, {SearchProps} from "antd/es/input/Search";
 import {Link} from "react-router-dom";
 import {EditOutlined} from "@ant-design/icons";
+import {AuthContext} from "../../../../context";
 
 
 const ClubList = () => {
@@ -18,6 +19,7 @@ const ClubList = () => {
     const [searchText, setSearchText] = React.useState<string>("")
     const [status, setStatus] = React.useState<string[] | null>()
     const [type, setType] = React.useState<string[] | null>()
+    const {user} = useContext(AuthContext);
 
 
     const columns: ColumnsType<Club> = [
@@ -108,14 +110,25 @@ const ClubList = () => {
         }
     ]
     const fetchClubs = (): Promise<Club[]> => {
-        return axios.get<Club[]>("http://localhost:8080/api/v1/clubs", {
+        if (user?.roles?.includes(AuthenticationResponseRolesEnum.ADMIN)){
+            return axios.get<Club[]>("http://localhost:8080/api/v1/clubs", {
+                params: {
+                    pageNumber: pageNumber - 1,
+                    pageSize: pageSize,
+                    search: searchText,
+                    status: status && status.toString(),
+                    type: type && type.toString(),
+
+                }
+            }).then(res => {
+                setTotalRows(pageSize * res.headers['total-pages'])
+                return res.data
+            })
+        }
+        return axios.get<Club[]>("http://localhost:8080/api/v1/clubs/managed", {
             params: {
                 pageNumber: pageNumber - 1,
                 pageSize: pageSize,
-                search: searchText,
-                status: status && status.toString(),
-                type: type && type.toString(),
-
             }
         }).then(res => {
             setTotalRows(pageSize * res.headers['total-pages'])
