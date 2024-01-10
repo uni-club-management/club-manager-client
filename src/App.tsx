@@ -19,6 +19,7 @@ import Budget from './routes/president/budget/index.tsx';
 import ClubMembers from "./routes/president/members/index.tsx";
 import ClubBudget from "./routes/president/budget/index.tsx";
 import NewClubPage from "./routes/common/new-club";
+import Dashboard from './routes/president/dashboard/index.tsx';
 
 function App() {
 
@@ -98,7 +99,7 @@ function App() {
                     :
                     user?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT) ?
                         <Route path='/president' element={<RootLayout options={presidentOptions}/>}>
-                            <Route path='dashboard' element={<div>dashboard</div>}/>
+                            <Route path='dashboard' element={<Dashboard/>}/>
                             <Route path='members' element={<Members/>}/>
                             <Route path='events'>
                                 <Route index element={<Events/>}/>
@@ -110,7 +111,7 @@ function App() {
                     :
                      user?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT) ?
                          <Route path='/vice-president' element={<RootLayout options={presidentOptions}/>}>
-                            <Route path='dashboard' element={<div>dashboard</div>}/>
+                            <Route path='dashboard' element={<Dashboard/>}/>
                              <Route path='members' element={<Members/>}/>
                              <Route path='events'>
                                  <Route index element={<Events/>}/>
