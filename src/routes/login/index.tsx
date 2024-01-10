@@ -49,20 +49,20 @@ const LoginPage = () => {
                 navigate(`/admin/clubs`)
             } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PRESIDENT)) {
                 getClub()
-                navigate(`/president`)
+                navigate(`/president/dashboard`)
             } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.PROF)) {
-                navigate(`/prof`)
+                navigate(`/prof/clubs`)
             } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.VICEPRESIDENT)) {
                 getClub()
-                navigate(`/vicepresident`)
+                navigate(`/vice-president/dashboard`)
             } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.TREASURER)) {
                 getClub()
-                navigate(`/treasurer`)
+                navigate(`/treasurer/budget`)
             } else if (res.data?.roles?.includes(AuthenticationResponseRolesEnum.SECRETARY)) {
                 getClub()
                 navigate(`/secretary`)
             } else
-                navigate(`/login`)
+                navigate(`/create-club`)
 
         }).catch(err => {
             console.log(err)
